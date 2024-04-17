@@ -1,0 +1,11 @@
+POST http://localhost:3023/signup
+Content-Type: application/json
+
+{
+  "name": "Ginevra",
+  "surname": "Testa",
+  "email": "ginevra99testaa@gmail.com",
+  "dateOfBirth": "1999-07-30",
+  "occupation": "Web Developer",
+  "password": "NewPass@1"
+}

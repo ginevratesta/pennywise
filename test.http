@@ -2,10 +2,37 @@ POST http://localhost:3023/signup
 Content-Type: application/json
 
 {
-  "name": "Ginevra",
-  "surname": "Testa",
-  "email": "ginevra99testaa@gmail.com",
-  "dateOfBirth": "1999-07-30",
-  "occupation": "Web Developer",
+  "name": "Samuel",
+  "surname": "Giorgianni",
+  "email": "samgior@gmail.com",
+  "dateOfBirth": "1974-03-25",
+  "occupation": "Disuccupato",
   "password": "NewPass@1"
 }
+
+####
+
+POST http://localhost:3023/login
+Content-Type: application/json
+
+{
+  "email": "ginevra99testaa@gmail.com",
+  "password": "NewPass@1"
+}
+
+####
+
+GET http://localhost:3023/getUserById/661fcdcd1560a753d9967f12
+
+####
+
+PATCH http://localhost:3023/updateUser/661fcd231560a753d9967f0d
+Content-Type: application/json
+
+{
+  "password": "March24@"
+}
+
+####
+
+DELETE http://localhost:3023/deleteUser/661fda2d50e680dd0c542daf

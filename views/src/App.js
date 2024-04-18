@@ -1,8 +1,9 @@
 import './App.css';
+import LoginPage from "./Components/loginPage/LoginPage"
 
 const App = () => {
   return (
-    <p>Hello world!</p>
+    <LoginPage />
   );
 }
 

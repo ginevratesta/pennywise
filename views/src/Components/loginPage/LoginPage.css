@@ -7,3 +7,15 @@
         color: pink
     }
 }
+
+#signin {
+    cursor: pointer;
+}
+
+#signin:hover {
+    color: #5B96CB;
+}
+
+.display-none {
+    display: none;
+}

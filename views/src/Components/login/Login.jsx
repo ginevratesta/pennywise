@@ -8,7 +8,7 @@ import {
 } from "@mui/material";
 import { useState, useEffect } from "react";
 import axios from "axios";
-import "./LoginPage.css";
+import "./Login.css";
 
 const LoginPage = () => {
   const [formData, setFormData] = useState({
@@ -102,6 +102,7 @@ const LoginPage = () => {
           flexDirection: "column",
           alignItems: "center",
           py: "24px",
+          my: "40px"
         }}
       >
         <Typography variant="h4" m="0" pb="16px" color="#A4D8E7">
@@ -115,7 +116,7 @@ const LoginPage = () => {
             border: 2,
             borderColor: "#A4D8E7",
             borderRadius: "16px",
-            boxShadow: 3,
+            boxShadow: 10,
           }}
           p="32px"
         >

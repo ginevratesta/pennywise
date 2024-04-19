@@ -102,10 +102,11 @@ const LoginPage = () => {
           flexDirection: "column",
           alignItems: "center",
           py: "24px",
-          my: "40px"
+          mb: "40px",
+          mt: "24px"
         }}
       >
-        <Typography variant="h4" m="0" pb="16px" color="#A4D8E7">
+        <Typography variant="h4" m="0" pb="16px" color="#CA8EB4">
           {isUser ? "Sign in" : "Sign up"}
         </Typography>
 
@@ -114,7 +115,7 @@ const LoginPage = () => {
           component="form"
           sx={{
             border: 2,
-            borderColor: "#A4D8E7",
+            borderColor: "#CA8EB4",
             borderRadius: "16px",
             boxShadow: 10,
           }}
@@ -208,8 +209,8 @@ const LoginPage = () => {
             sx={{
               mt: 3,
               mb: 2,
-              bgcolor: "#A4D8E7",
-              ":hover": { bgcolor: "#5B96CB" },
+              bgcolor: "#CA8EB4",
+              ":hover": { bgcolor: "#FFAD8E" },
             }}
           >
             {isUser ? "Sign in" : "Sign Up"}

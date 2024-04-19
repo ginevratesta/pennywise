@@ -3,9 +3,8 @@ import {
   Box,
   Toolbar,
   Typography,
-  Button,
-  IconButton,
 } from "@mui/material";
+import logo from "../pics/penny.png"
 import "./Header.css"
 
 const Header = () => {
@@ -13,18 +12,8 @@ const Header = () => {
     <Box sx={{ flexGrow: 1 }}>
       <AppBar position="static">
         <Toolbar>
-          <IconButton
-            size="large"
-            edge="start"
-            color="inherit"
-            aria-label="menu"
-            sx={{ mr: 2 }}
-          >
-          </IconButton>
-          <Typography variant="h6" component="div" sx={{ flexGrow: 1 }}>
-            News
-          </Typography>
-          <Button color="inherit">Login</Button>
+          <img src={logo} alt="logo" />
+          <Typography color="inherit">PennyWise</Typography>
         </Toolbar>
       </AppBar>
     </Box>

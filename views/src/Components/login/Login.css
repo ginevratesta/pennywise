@@ -1,19 +1,20 @@
 :root{
     .css-md26zr-MuiInputBase-root-MuiOutlinedInput-root.Mui-focused .MuiOutlinedInput-notchedOutline {
-        border-color: pink;
+        border-color: #FFAD8E;
     }
 
     .css-1jy569b-MuiFormLabel-root-MuiInputLabel-root.Mui-focused {
-        color: pink
+        color: #FFAD8E
     }
 }
 
 #signin {
     cursor: pointer;
+    color: #CA8EB4;
 }
 
 #signin:hover {
-    color: #5B96CB;
+    color: #FFAD8E;
 }
 
 .display-none {

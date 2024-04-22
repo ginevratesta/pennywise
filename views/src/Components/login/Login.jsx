@@ -8,6 +8,7 @@ import {
 } from "@mui/material";
 import { useState, useEffect } from "react";
 import axios from "axios";
+import Animation from "../animation/Animation";
 import "./Login.css";
 
 const LoginPage = () => {
@@ -26,6 +27,8 @@ const LoginPage = () => {
   });
 
   const [isUser, setIsUser] = useState(false);
+
+  const [isLoading, setIsLoading] = useState(true);
 
   const handleSubmit = async (e) => {
     e.preventDefault();
@@ -92,10 +95,18 @@ const LoginPage = () => {
     }
   };
 
-  useEffect(() => {}, [formData, loginData, isUser]);
+  useEffect(() => {
+    setTimeout(() => {
+      setIsLoading(false);
+    }, 2500);
+  }, [formData, loginData, isUser]);
 
   return (
-    <Container component="main" maxWidth="xs" display="flex">
+    <>
+    { isLoading ? (
+      <Animation />
+    ) : (
+    <Container component="main" maxWidth="xs">
       <Box
         sx={{
           display: "flex",
@@ -233,6 +244,8 @@ const LoginPage = () => {
         </Box>
       </Box>
     </Container>
+    )}
+    </>
   );
 };
 

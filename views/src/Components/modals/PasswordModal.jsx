@@ -44,7 +44,7 @@ const PasswordModal = () => {
         onClose={handleClose}
         aria-describedby="alert-dialog-slide-description"
       >
-        <DialogTitle color="#FA98A8">{"PASSWORD POLICY RULES"}</DialogTitle>
+        <DialogTitle color="#FFCF74">{"PASSWORD POLICY RULES"}</DialogTitle>
         <DialogContent>
           <DialogContentText id="alert-dialog-slide-description">
             <ul>
@@ -71,7 +71,7 @@ const PasswordModal = () => {
         <DialogActions>
           <Button
             sx={{
-              color: "#FA98A8",
+              color: "#FFCF74",
               ":hover": { bgcolor: "#fffee0", color: "#FFAD8E" },
             }}
             onClick={handleClose}

@@ -49,15 +49,17 @@ const PasswordModal = () => {
           <DialogContentText id="alert-dialog-slide-description">
             <ul>
               <li>
-                Passwords must be at least <span className="rules">8 characters</span> long
-                and no more than <span className="rules">12 characters</span>.
+                Passwords must be at least{" "}
+                <span className="rules">8 characters</span> long and no more
+                than <span className="rules">12 characters</span>.
               </li>
               <li>
                 Passwords must contain at least{" "}
                 <span className="rules">one uppercase letter</span>.
               </li>
               <li>
-                Passwords must contain at least <span className="rules">one number</span>.
+                Passwords must contain at least{" "}
+                <span className="rules">one number</span>.
               </li>
               <li>
                 Passwords must contain at least{" "}
@@ -67,7 +69,15 @@ const PasswordModal = () => {
           </DialogContentText>
         </DialogContent>
         <DialogActions>
-          <Button sx={{color: "#FA98A8", ":hover": {bgcolor: "#fffee0", color:"#FFAD8E"}}} onClick={handleClose}>I understand</Button>
+          <Button
+            sx={{
+              color: "#FA98A8",
+              ":hover": { bgcolor: "#fffee0", color: "#FFAD8E" },
+            }}
+            onClick={handleClose}
+          >
+            I understand
+          </Button>
         </DialogActions>
       </Dialog>
     </React.Fragment>

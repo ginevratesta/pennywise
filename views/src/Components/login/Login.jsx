@@ -5,8 +5,10 @@ import {
   Grid,
   Container,
   Button,
+  Alert,
 } from "@mui/material";
 import { useState, useEffect } from "react";
+import { useNavigate } from "react-router-dom";
 import axios from "axios";
 import Animation from "../animation/Animation";
 import "./Login.css";
@@ -27,6 +29,9 @@ const LoginPage = () => {
   });
 
   const [isUser, setIsUser] = useState(false);
+  const [successAlert, setSuccessAlert] = useState(false);
+  const [errorAlert, setErrorAlert] = useState(false);
+  const navigate = useNavigate();
 
   const [isLoading, setIsLoading] = useState(true);
 
@@ -34,20 +39,14 @@ const LoginPage = () => {
     e.preventDefault();
     try {
       if (isUser) {
-        const response = await axios.post(
-          "http://localhost:3023/login",
-          loginData
-        );
-        console.log(response.data);
+        await axios.post("http://localhost:3023/login", loginData);
       } else {
-        const response = await axios.post(
-          "http://localhost:3023/signup",
-          formData
-        );
-        console.log(response.data);
+        await axios.post("http://localhost:3023/signup", formData);
+        setSuccessAlert(true);
       }
     } catch (error) {
       console.error("Error creating user:", error);
+      setErrorAlert(true);
     } finally {
       if (isUser) {
         setLoginData({
@@ -64,6 +63,9 @@ const LoginPage = () => {
           password: "",
         });
       }
+      setTimeout(() => {
+        navigate("/home");
+      }, 1500);
     }
   };
 
@@ -114,7 +116,7 @@ const LoginPage = () => {
           alignItems: "center",
           py: "24px",
           mb: "40px",
-          mt: "24px"
+          mt: "24px",
         }}
       >
         <Typography variant="h4" m="0" pb="16px" color="#CA8EB4">
@@ -132,6 +134,17 @@ const LoginPage = () => {
           }}
           p="32px"
         >
+          {successAlert && (
+            <Alert severity="success" onClose={() => setSuccessAlert(false)}>
+              Signup successful!
+            </Alert>
+          )}
+          {errorAlert && (
+            <Alert severity="error" onClose={() => setErrorAlert(false)}>
+              User already exists. Please sign in.
+            </Alert>
+          )}
+
           <Grid container spacing={2}>
             {!isUser && (
               <Grid item xs={12} sm={6}>

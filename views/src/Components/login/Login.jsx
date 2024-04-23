@@ -222,7 +222,7 @@ const LoginPage = () => {
                     onChange={handleChange}
                     value={isUser ? loginData.password : formData.password}
                   />
-                  <PasswordModal />
+                  {!isUser && (<PasswordModal />)}
                 </Grid>
               </Grid>
 

@@ -1,38 +1,29 @@
-POST http://localhost:3023/signup
+POST http://localhost:3023/transactions/66214a4008c332c704c1de3d
 Content-Type: application/json
 
 {
-  "name": "Samuel",
-  "surname": "Giorgianni",
-  "email": "samgior@gmail.com",
-  "dateOfBirth": "1974-03-25",
-  "occupation": "Disuccupato",
-  "password": "NewPass@1"
+  "income": 1500,
+  "description": "Monthly salary",
+  "expenses": [
+    {
+      "category": "Food",
+      "amount": 100,
+      "description": "Food expenses"
+    }
+  ]
 }
 
 ####
 
-POST http://localhost:3023/login
+POST http://localhost:3023/transactions/661fcd231560a753d9967f0d/expenses
 Content-Type: application/json
 
 {
-  "email": "ginevra99testaa@gmail.com",
-  "password": "NewPass@1"
+  "category": "Bills",
+  "amount": 200,
+  "description": "Bills expenses"
 }
 
 ####
 
-GET http://localhost:3023/getUserById/661fcdcd1560a753d9967f12
-
-####
-
-PATCH http://localhost:3023/updateUser/661fcd231560a753d9967f0d
-Content-Type: application/json
-
-{
-  "password": "March24@"
-}
-
-####
-
-DELETE http://localhost:3023/deleteUser/661fda2d50e680dd0c542daf
+GET http://localhost:3023/transactions/661fcd231560a753d9967f0d

@@ -8,10 +8,12 @@ const PORT = 3023;
 const app = express();
 
 const usersRoute = require('./routes/users');
+const transRoute = require('./routes/transactions');
 
 app.use(cors());
 app.use(express.json());
 app.use('', usersRoute);
+app.use('', transRoute);
 
 
 mongoose.connect(process.env.MONGO_DB_URL); 

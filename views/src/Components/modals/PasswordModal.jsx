@@ -4,7 +4,6 @@ import {
   Dialog,
   DialogActions,
   DialogContent,
-  DialogContentText,
   DialogTitle,
   Slide,
   Typography,
@@ -46,8 +45,7 @@ const PasswordModal = () => {
       >
         <DialogTitle color="#CA8EB4">{"PASSWORD POLICY RULES"}</DialogTitle>
         <DialogContent>
-          <DialogContentText id="alert-dialog-slide-description">
-            <ul>
+            <ul id="alert-dialog-slide-description">
               <li>
                 Passwords must be at least{" "}
                 <span className="rules">8 characters</span> long and no more
@@ -66,7 +64,6 @@ const PasswordModal = () => {
                 <span className="rules">one special character</span>.
               </li>
             </ul>
-          </DialogContentText>
         </DialogContent>
         <DialogActions>
           <Button

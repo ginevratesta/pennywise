@@ -40,13 +40,16 @@ const LoginPage = () => {
     e.preventDefault();
     try {
       if (isUser) {
-        await axios.post("http://localhost:3023/login", loginData);
-        navigate("/home");
+        const response = await axios.post("http://localhost:3023/login", loginData);
+        const userId = response.data.user._id
+        console.log(userId)
+        navigate(`/home/${userId}`);
       } else {
-        await axios.post("http://localhost:3023/signup", formData);
+        const response = await axios.post("http://localhost:3023/signup", formData);
+        const userId = response.data.user._id
         setSuccessAlert(true);
         setTimeout(() => {
-          navigate("/home");
+          navigate(`/home/${userId}`);
         }, 1500);
       }
     } catch (error) {

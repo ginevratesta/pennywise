@@ -42,11 +42,10 @@ const LoginPage = () => {
       if (isUser) {
         const response = await axios.post("http://localhost:3023/login", loginData);
         const userId = response.data.user._id
-        console.log(userId)
         navigate(`/home/${userId}`);
       } else {
         const response = await axios.post("http://localhost:3023/signup", formData);
-        const userId = response.data._id
+        const userId = response.data.newUser._id
         setSuccessAlert(true);
         setTimeout(() => {
           navigate(`/home/${userId}`);

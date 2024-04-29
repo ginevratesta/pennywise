@@ -8,6 +8,10 @@
     }
 }
 
+main {
+    min-height: 75vh;
+}
+
 #signin {
     cursor: pointer;
     color: #CA8EB4;

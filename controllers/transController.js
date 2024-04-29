@@ -1,26 +1,17 @@
-const Transactions = require('../models/transactions');
+const Transactions = require("../models/transactions");
 
 exports.postTrans = async (req, res) => {
-  const { userId } = req.params; 
-  const { income, description, expenses } = req.body;
+  const { userId } = req.params;
+  const { type, amount, description, date } = req.body;
 
   try {
-    let transaction = await Transactions.findOne({ userId });
-
-    if (transaction) {
-      return res.status(400).json({ message: "User already has a transaction. Please update or delete existing transaction." });
-    }
-
-    transaction = new Transactions({
+    const transaction = new Transactions({
       userId,
-      income,
+      type,
+      amount,
       description,
-      expenses: []
+      date
     });
-
-    for (const expense of expenses) {
-      transaction.expenses.push(expense);
-    }
 
     await transaction.save();
 
@@ -32,41 +23,20 @@ exports.postTrans = async (req, res) => {
 };
 
 
-exports.postExpenses = async (req, res) => {
-  const userId = req.params.userId; 
-  const { category, amount, description } = req.body; 
-
-  try {
-    const transaction = await Transactions.findOne({ userId });
-    if (!transaction) {
-      return res.status(404).json({ message: 'Transaction not found' });
-    }
-
-    transaction.expenses.push({ category, amount, description });
-
-    await transaction.save();
-
-    res.status(201).json({ message: "Expense successfully added" });
-  } catch (error) {
-    console.error("Error adding the new expense:", error);
-    res.status(500).json({ message: "Internal Server Error" });
-  }
-};
-
-
 exports.getTrans = async (req, res) => {
   const { userId } = req.params;
 
   try {
-    const transaction = await Transactions.findOne({ userId });
+    const transactions = await Transactions.find({ userId });
 
-    if (!transaction) {
-      return res.status(404).json({ message: "Transaction not found" });
+    if (transactions.length === 0) {
+      return res.status(404).json({ message: "No transactions found for this user" });
     }
 
-    res.status(200).json({ transaction });
+    res.status(200).json({ transactions });
   } catch (error) {
-    console.error("Error fetching transaction:", error);
+    console.error("Error fetching transactions:", error);
     res.status(500).json({ message: "Internal Server Error" });
   }
 };
+

@@ -1,27 +1,11 @@
-POST http://localhost:3023/transactions/66214a4008c332c704c1de3d
+POST http://localhost:3023/transactions/661fcd231560a753d9967f0d
 Content-Type: application/json
 
 {
-  "income": 1500,
+  "type": "income",
+  "amount": 1700,
   "description": "Monthly salary",
-  "expenses": [
-    {
-      "category": "Food",
-      "amount": 100,
-      "description": "Food expenses"
-    }
-  ]
-}
-
-####
-
-POST http://localhost:3023/transactions/661fcd231560a753d9967f0d/expenses
-Content-Type: application/json
-
-{
-  "category": "Bills",
-  "amount": 200,
-  "description": "Bills expenses"
+  "date": "2024-03-20"
 }
 
 ####

@@ -1,0 +1,16 @@
+:root {
+    .css-mhc70k-MuiGrid-root {
+        justify-content: space-between;
+        margin-block: 40px;
+    }
+
+    .css-1g2dm2e-MuiPaper-root-MuiCard-root  {
+        border: 2px solid #FFCF74;
+        border-radius: 20px;
+        color: #FFAD8E;
+    }
+}
+
+main {
+    min-height: 80vh;
+}

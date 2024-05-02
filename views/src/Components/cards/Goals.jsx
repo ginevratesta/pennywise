@@ -6,9 +6,9 @@ import {
   Button,
 } from "@mui/material";
 
-const Goals = ({ goal }) => {
+const Goals = ({ goal, handleDeleteGoal }) => {
   return (
-    <Card id={goal._id} sx={{ width: "70%", mb: "24px" }}>
+    <Card className="card" id={goal._id} sx={{ width: "70%", mb: "24px" }}>
       <CardContent>
         <Typography sx={{ mb: 1.5 }}>{goal.amount} €</Typography>
         <Typography variant="body2">{goal.description}</Typography>
@@ -16,7 +16,7 @@ const Goals = ({ goal }) => {
       </CardContent>
       <CardActions>
         <Button size="small">Modify</Button>
-        <Button size="small">Delete</Button>
+        <Button size="small" onClick={handleDeleteGoal}>Delete</Button>
       </CardActions>
     </Card>
   );

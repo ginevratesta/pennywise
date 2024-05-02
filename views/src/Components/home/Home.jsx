@@ -1,20 +1,20 @@
-import { useEffect, useState } from "react";
+import { useContext, useEffect } from "react";
 import { Box, Grid, Typography, Button } from "@mui/material";
 import { useParams } from "react-router-dom";
+import { PennyWiseContext } from "../../Context/PennyWiseContext";
 import getUser from "../api/getUser";
 import getTrans from "../api/getTrans";
 import getGoals from "../api/getGoals";
 import deleteTrans from "../api/deleteTrans";
+import deleteGoal from "../api/deleteGoals";
 import Goals from "../cards/Goals";
 import Transactions from "../cards/Transactions";
 import SideDrawer from "../sideDrawer/SideDrawer";
 import "./Home.css";
 
 const Home = () => {
+  const {updatesData, trans, goals} = useContext(PennyWiseContext);
   const { userId } = useParams();
-  const [user, setUser] = useState({});
-  const [trans, setTrans] = useState([]);
-  const [goals, setGoals] = useState([]);
 
   useEffect(() => {
     const fetchData = async () => {
@@ -22,24 +22,24 @@ const Home = () => {
         const userData = await getUser(userId);
         const userTrans = await getTrans(userId);
         const userGoals = await getGoals(userId);
-        setUser(userData);
-        setTrans(userTrans);
-        setGoals(userGoals);
+        updatesData("setUser",userData);
+        updatesData("setTrans", userTrans);
+        updatesData("setGoals", userGoals);
       } catch (error) {
         console.error("Error fetching user data:", error);
       }
     };
 
     fetchData();
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [userId]);
 
-  const handleDelete = async (e) => {
+  const handleDeleteTrans = async (e) => {
     const transactionId = e.target.closest(".card").id;
-    console.log(transactionId);
     try {
       await deleteTrans(transactionId);
 
-      setTrans(
+      updatesData( "setTrans" ,
         trans.filter((transaction) => transaction._id !== transactionId)
       );
     } catch (error) {
@@ -47,9 +47,21 @@ const Home = () => {
     }
   };
 
+  const handleDeleteGoal = async (e) => {
+    const goalId = e.target.closest(".card").id;
+    try {
+      await deleteGoal(goalId);
+
+      updatesData("setGoals", goals.filter((goal) => goal._id !== goalId));
+    } catch (error) {
+      console.error("Error deleting goal:", error);
+    }
+  };
+
   return (
     <Box sx={{ flexGrow: 1 }} component="main">
       <Grid container spacing={2} columns={16}>
+        
         <Grid
           item
           xs={16}
@@ -60,7 +72,7 @@ const Home = () => {
             px: "24px",
           }}
         >
-          <SideDrawer user={user} />
+          <SideDrawer />
           <Box>
             <Button size="large">+</Button>
             <Button size="large">-</Button>
@@ -90,7 +102,7 @@ const Home = () => {
               <Transactions
                 key={single._id}
                 single={single}
-                handleDelete={handleDelete}
+                handleDeleteTrans={handleDeleteTrans}
               />
             ))
           )}
@@ -114,7 +126,13 @@ const Home = () => {
               No goals yet
             </Typography>
           ) : (
-            goals.map((goal) => <Goals key={goal._id} goal={goal} />)
+            goals.map((goal) => (
+              <Goals
+                key={goal._id}
+                goal={goal}
+                handleDeleteGoal={handleDeleteGoal}
+              />
+            ))
           )}
         </Grid>
       </Grid>

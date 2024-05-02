@@ -4,6 +4,7 @@ import { useParams } from "react-router-dom";
 import getUser from "../api/getUser";
 import getTrans from "../api/getTrans";
 import getGoals from "../api/getGoals";
+import deleteTrans from "../api/deleteTrans";
 import Goals from "../cards/Goals";
 import Transactions from "../cards/Transactions";
 import SideDrawer from "../sideDrawer/SideDrawer";
@@ -32,18 +33,44 @@ const Home = () => {
     fetchData();
   }, [userId]);
 
+  const handleDelete = async (e) => {
+    const transactionId = e.target.closest(".card").id;
+    console.log(transactionId);
+    try {
+      await deleteTrans(transactionId);
+
+      setTrans(
+        trans.filter((transaction) => transaction._id !== transactionId)
+      );
+    } catch (error) {
+      console.error("Error deleting transaction:", error);
+    }
+  };
+
   return (
     <Box sx={{ flexGrow: 1 }} component="main">
       <Grid container spacing={2} columns={16}>
-
-        <Grid item xs={12} md={2}>
+        <Grid
+          item
+          xs={16}
+          sx={{
+            display: "flex",
+            justifyContent: "space-between",
+            alignItems: "center",
+            px: "24px",
+          }}
+        >
           <SideDrawer user={user} />
+          <Box>
+            <Button size="large">+</Button>
+            <Button size="large">-</Button>
+          </Box>
         </Grid>
 
         <Grid
           item
           xs={12}
-          md={4}
+          md={8}
           sx={{
             display: "flex",
             flexDirection: "column",
@@ -59,14 +86,20 @@ const Home = () => {
               No transactions yet
             </Typography>
           ) : (
-            trans.map((single) => <Transactions single={single} />)
+            trans.map((single) => (
+              <Transactions
+                key={single._id}
+                single={single}
+                handleDelete={handleDelete}
+              />
+            ))
           )}
         </Grid>
 
         <Grid
           item
           xs={12}
-          md={4}
+          md={8}
           sx={{
             display: "flex",
             flexDirection: "column",
@@ -81,15 +114,9 @@ const Home = () => {
               No goals yet
             </Typography>
           ) : (
-            goals.map((goal) => <Goals goal={goal} />)
+            goals.map((goal) => <Goals key={goal._id} goal={goal} />)
           )}
         </Grid>
-
-        <Grid item xs={12} md={2}>
-          <Button size="large">+</Button>
-          <Button size="large">-</Button>
-        </Grid>
-        
       </Grid>
     </Box>
   );

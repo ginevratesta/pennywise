@@ -1,7 +1,6 @@
 :root {
     .css-mhc70k-MuiGrid-root {
-        justify-content: space-between;
-        margin-block: 40px;
+        justify-content: center;
     }
 
     .css-1g2dm2e-MuiPaper-root-MuiCard-root  {
@@ -9,8 +8,14 @@
         border-radius: 20px;
         color: #FFAD8E;
     }
+
+    .css-1e6y48t-MuiButtonBase-root-MuiButton-root {
+        margin: auto;
+        margin-left: 20px;
+    }
 }
 
 main {
     min-height: 80vh;
+    margin-block: 30px;
 }

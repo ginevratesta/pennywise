@@ -16,7 +16,6 @@ import {
 import { PennyWiseContext } from "../../Context/PennyWiseContext";
 import patchGoal from "../api/patchGoals";
 import getGoals from "../api/getGoals";
-import "./PatchModal.css";
 
 const PatchGoalModal = ({ goal }) => {
   
@@ -53,11 +52,11 @@ const PatchGoalModal = ({ goal }) => {
 
   return (
     <React.Fragment>
-      <Button variant="outlined" onClick={handleClickOpen}>
+      <Button variant="contained" size="small" onClick={handleClickOpen}>
         Modify
       </Button>
       <Dialog open={open} onClose={handleClose}>
-        <DialogTitle sx={{ color: "#FFAD8E" }}>Modify transaction</DialogTitle>
+        <DialogTitle sx={{ color: "#FFAD8E" }}>Modify Goal</DialogTitle>
         <Box sx={{ p: "16px" }}>
           <Grid container spacing={2}>
             <Grid item xs={12} sm={6}>

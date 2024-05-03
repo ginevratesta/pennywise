@@ -94,7 +94,7 @@ const Home = () => {
             alignItems: "center",
           }}
         >
-          <Typography variant="h4" sx={{ color: "#FA98A8", mb: "16px" }}>
+          <Typography variant="h4" sx={{ color: "#FFAD8E", mb: "16px" }}>
             Transactions
           </Typography>
 
@@ -123,7 +123,7 @@ const Home = () => {
             alignItems: "center",
           }}
         >
-          <Typography variant="h4" sx={{ color: "#FA98A8", mb: "16px" }}>
+          <Typography variant="h4" sx={{ color: "#FFAD8E", mb: "16px" }}>
             Goals
           </Typography>
           {goals.length === 0 ? (

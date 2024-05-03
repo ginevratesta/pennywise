@@ -16,6 +16,7 @@ import {
 import { PennyWiseContext } from "../../Context/PennyWiseContext";
 import getGoals from "../api/getGoals";
 import postGoal from "../api/postGoal";
+import "./PostModal.css";
 
 
 const PostGoalModal = () => {
@@ -53,7 +54,7 @@ const PostGoalModal = () => {
 
   return (
     <React.Fragment>
-      <Button variant="outlined" onClick={handleClickOpen}>
+      <Button variant="contained" sx={{m: "4px", ":hover": {backgroundColor: "#FFAD8E"}}} onClick={handleClickOpen}>
         New Goal
       </Button>
       <Dialog open={open} onClose={handleClose}>

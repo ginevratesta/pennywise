@@ -1,21 +1,33 @@
 :root {
-    .css-mhc70k-MuiGrid-root {
-        justify-content: center;
-    }
+  .css-mhc70k-MuiGrid-root {
+    justify-content: center;
+  }
 
-    .css-1g2dm2e-MuiPaper-root-MuiCard-root  {
-        border: 2px solid #FFCF74;
-        border-radius: 20px;
-        color: #FFAD8E;
-    }
+  .css-1g2dm2e-MuiPaper-root-MuiCard-root {
+    border: 2px solid #ca8eb4;
+    border-radius: 20px;
+    color: #ffad8e;
+    box-shadow: rgba(0, 0, 0, 0.24) 0px 3px 8px;
+  }
 
-    .css-1e6y48t-MuiButtonBase-root-MuiButton-root {
-        margin: auto;
-        margin-left: 20px;
-    }
+  .css-1g2dm2e-MuiPaper-root-MuiCard-root:nth-child(odd) {
+    border: 2px solid #fa98a8;
+  }
+
+  .css-1e6y48t-MuiButtonBase-root-MuiButton-root {
+    margin: auto;
+    margin-left: 20px;
+  }
+
+  .css-11qr2p8-MuiButtonBase-root-MuiButton-root {
+    background-color: #ca8eb4;
+  }
+  .css-11qr2p8-MuiButtonBase-root-MuiButton-root:hover {
+    background-color: #ffad8e;
+  }
 }
 
 main {
-    min-height: 80vh;
-    margin-block: 30px;
+  min-height: 80vh;
+  margin-block: 30px;
 }

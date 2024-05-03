@@ -11,17 +11,17 @@ const Transactions = ({ single, handleDeleteTrans }) => {
   return (
     <Card className="card" id={single._id} sx={{ width: "70%", mb: "24px" }}>
       <CardContent>
-        <Typography sx={{ mb: 1.5 }}>{single.amount} €</Typography>
-        <Typography variant="body2">
-          {single.type}: {single.description}
+        <Typography variant="h5" sx={{color:"#FA98A8"}}>
+          {single.type}: {single.amount} €
         </Typography>
-        <Typography variant="subtitle2" color="#FA98A8" gutterBottom>
+        <Typography sx={{ mb: 1.5 }}>Description: {single.description}</Typography>
+        <Typography variant="subtitle2" color="#9686AB" gutterBottom>
           {single.date}
         </Typography>
       </CardContent>
-      <CardActions>
+      <CardActions sx={{display: "flex", justifyContent: "space-around"}}>
         <PatchTransModal single={single} />
-        <Button size="small" onClick={handleDeleteTrans}>
+        <Button size="small" variant="contained" onClick={handleDeleteTrans}>
           Delete
         </Button>
       </CardActions>

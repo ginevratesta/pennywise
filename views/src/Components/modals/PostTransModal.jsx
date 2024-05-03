@@ -16,6 +16,7 @@ import {
 import { PennyWiseContext } from "../../Context/PennyWiseContext";
 import getTrans from "../api/getTrans";
 import postTrans from "../api/postTrans";
+import "./PostModal.css"
 
 
 const PostTransModal = () => {
@@ -53,7 +54,7 @@ const PostTransModal = () => {
 
   return (
     <React.Fragment>
-      <Button variant="outlined" onClick={handleClickOpen}>
+      <Button variant="contained" sx={{m: "4px", ":hover": {backgroundColor: "#FFAD8E"}}} onClick={handleClickOpen}>
       New Transaction
       </Button>
       <Dialog open={open} onClose={handleClose}>

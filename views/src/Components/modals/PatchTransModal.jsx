@@ -16,7 +16,6 @@ import {
 import { PennyWiseContext } from "../../Context/PennyWiseContext";
 import patchTrans from "../api/patchTrans";
 import getTrans from "../api/getTrans";
-import "./PatchModal.css";
 
 const PatchTransModal = ({ single }) => {
   
@@ -53,7 +52,7 @@ const PatchTransModal = ({ single }) => {
 
   return (
     <React.Fragment>
-      <Button variant="outlined" onClick={handleClickOpen}>
+      <Button variant="contained" size="small" onClick={handleClickOpen}>
         Modify
       </Button>
       <Dialog open={open} onClose={handleClose}>

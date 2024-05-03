@@ -5,6 +5,7 @@ import {
   CardActions,
   Button,
 } from "@mui/material";
+import PatchGoalModal from "../modals/PatchGoalsModal";
 
 const Goals = ({ goal, handleDeleteGoal }) => {
   return (
@@ -15,8 +16,10 @@ const Goals = ({ goal, handleDeleteGoal }) => {
         <Typography variant="body2">Saving: {goal.type}</Typography>
       </CardContent>
       <CardActions>
-        <Button size="small">Modify</Button>
-        <Button size="small" onClick={handleDeleteGoal}>Delete</Button>
+        <PatchGoalModal goal={goal} />
+        <Button size="small" onClick={handleDeleteGoal}>
+          Delete
+        </Button>
       </CardActions>
     </Card>
   );

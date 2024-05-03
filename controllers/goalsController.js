@@ -2,7 +2,7 @@ const Goal = require("../models/goals");
 
 exports.createGoal = async (req, res) => {
   const { userId } = req.params;
-  const { amount, description, type } = req.body;
+  const { amount, description, type, date } = req.body;
 
   try {
     const goal = new Goal ({
@@ -10,6 +10,7 @@ exports.createGoal = async (req, res) => {
       amount,
       description,
       type,
+      date
     });
 
     await goal.save();

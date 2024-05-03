@@ -8,46 +8,11 @@ Content-Type: application/json
   "date": "2024-03-20"
 }
 
-####
-
-GET http://localhost:3023/transactions/661fcd231560a753d9967f0d
-
-####
-
-DELETE http://localhost:3023/transactions/662fa4518c236eaa31b7f38f
 
 ####
 
 DELETE http://localhost:3023/transactions/661fcd231560a753d9967f0d/deleteAll
 
-####
-PATCH http://localhost:3023/transactions/662fa4518c236eaa31b7f38f
-Content-Type: application/json
-
-{
-  "amount": 1600
-}
-
-
-####
-
-POST http://localhost:3023/goals/662fb06cf05965eea6480fdf
-Content-Type: application/json
-
-{
-  "amount": 50,
-  "description": "Savings goal for vacation",
-  "type": "monthly"
-}
-
-
-####
-
-GET http://localhost:3023/goals/661fcd231560a753d9967f0d
-
-####
-
-DELETE http://localhost:3023/goals/662faa4abf30b3edd71d7514
 
 ####
 
@@ -55,9 +20,13 @@ DELETE http://localhost:3023/goals/661fcd231560a753d9967f0d/deleteAll
 
 ####
 
-PATCH http://localhost:3023/goals/662fabf1be47ed1fc4750e5e
+POST http://localhost:3023/goals/662fb06cf05965eea6480fdf
 Content-Type: application/json
 
 {
-  "type": "monthly"
+  "amount" : "50",
+  "description" : "Electric guitar",
+  "type" : "monthly",
+  "date" : "2024-05-03"
 }
+

@@ -14,16 +14,16 @@ import {
   Select,
 } from "@mui/material";
 import { PennyWiseContext } from "../../Context/PennyWiseContext";
-import patchTrans from "../api/patchTrans";
-import getTrans from "../api/getTrans";
+import patchGoal from "../api/patchGoals";
+import getGoals from "../api/getGoals";
 import "./PatchModal.css";
 
-const PatchTransModal = ({ single }) => {
+const PatchGoalModal = ({ goal }) => {
   
   const { userId } = useParams();
 
   const [open, setOpen] = useState(false);
-  const [formData, setFormData] = useState(single);
+  const [formData, setFormData] = useState(goal);
   const {updatesData} = useContext(PennyWiseContext);
 
   const handleClickOpen = () => {
@@ -41,9 +41,9 @@ const PatchTransModal = ({ single }) => {
   const handleSubmit = async () => {
 
     try {
-      await patchTrans(single._id, formData);
-      const updatedTransData = await getTrans(userId); 
-      updatesData("setTrans", updatedTransData);
+      await patchGoal(goal._id, formData);
+      const updatedGoalData = await getGoals(userId); 
+      updatesData("setGoals", updatedGoalData);
       handleClose();
     } catch (error) {
       console.error("Error updating transaction:", error);
@@ -92,8 +92,8 @@ const PatchTransModal = ({ single }) => {
                   value={formData.type}
                   onChange={handleChange}
                 >
-                  <MenuItem value={"expense"}>Expense</MenuItem>
-                  <MenuItem value={"income"}>Income</MenuItem>
+                  <MenuItem value={"daily"}>Daily</MenuItem>
+                  <MenuItem value={"monthly"}>Monthly</MenuItem>
                 </Select>
               </FormControl>
             </Grid>
@@ -119,4 +119,4 @@ const PatchTransModal = ({ single }) => {
   );
 };
 
-export default PatchTransModal;
+export default PatchGoalModal;

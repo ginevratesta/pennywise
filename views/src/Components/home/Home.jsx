@@ -1,5 +1,5 @@
 import { useContext, useEffect } from "react";
-import { Box, Grid, Typography, Button } from "@mui/material";
+import { Box, Grid, Typography } from "@mui/material";
 import { useParams } from "react-router-dom";
 import { PennyWiseContext } from "../../Context/PennyWiseContext";
 import getUser from "../api/getUser";
@@ -7,13 +7,15 @@ import getTrans from "../api/getTrans";
 import getGoals from "../api/getGoals";
 import deleteTrans from "../api/deleteTrans";
 import deleteGoal from "../api/deleteGoals";
+import PostTransModal from "../modals/PostTransModal";
+import PostGoalModal from "../modals/PostGoalModal";
 import Goals from "../cards/Goals";
 import Transactions from "../cards/Transactions";
 import SideDrawer from "../sideDrawer/SideDrawer";
 import "./Home.css";
 
 const Home = () => {
-  const {updatesData, trans, goals} = useContext(PennyWiseContext);
+  const { updatesData, trans, goals } = useContext(PennyWiseContext);
   const { userId } = useParams();
 
   useEffect(() => {
@@ -22,7 +24,7 @@ const Home = () => {
         const userData = await getUser(userId);
         const userTrans = await getTrans(userId);
         const userGoals = await getGoals(userId);
-        updatesData("setUser",userData);
+        updatesData("setUser", userData);
         updatesData("setTrans", userTrans);
         updatesData("setGoals", userGoals);
       } catch (error) {
@@ -39,7 +41,8 @@ const Home = () => {
     try {
       await deleteTrans(transactionId);
 
-      updatesData( "setTrans" ,
+      updatesData(
+        "setTrans",
         trans.filter((transaction) => transaction._id !== transactionId)
       );
     } catch (error) {
@@ -52,7 +55,10 @@ const Home = () => {
     try {
       await deleteGoal(goalId);
 
-      updatesData("setGoals", goals.filter((goal) => goal._id !== goalId));
+      updatesData(
+        "setGoals",
+        goals.filter((goal) => goal._id !== goalId)
+      );
     } catch (error) {
       console.error("Error deleting goal:", error);
     }
@@ -61,7 +67,6 @@ const Home = () => {
   return (
     <Box sx={{ flexGrow: 1 }} component="main">
       <Grid container spacing={2} columns={16}>
-        
         <Grid
           item
           xs={16}
@@ -74,8 +79,8 @@ const Home = () => {
         >
           <SideDrawer />
           <Box>
-            <Button size="large">+</Button>
-            <Button size="large">-</Button>
+            <PostGoalModal />
+            <PostTransModal />
           </Box>
         </Grid>
 
@@ -98,7 +103,7 @@ const Home = () => {
               No transactions yet
             </Typography>
           ) : (
-            trans.map((single) => (
+            trans.slice().reverse().map((single) => (
               <Transactions
                 key={single._id}
                 single={single}
@@ -126,7 +131,7 @@ const Home = () => {
               No goals yet
             </Typography>
           ) : (
-            goals.map((goal) => (
+            goals.slice().reverse().map((goal) => (
               <Goals
                 key={goal._id}
                 goal={goal}

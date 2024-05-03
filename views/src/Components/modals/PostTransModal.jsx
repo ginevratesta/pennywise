@@ -14,17 +14,17 @@ import {
   Select,
 } from "@mui/material";
 import { PennyWiseContext } from "../../Context/PennyWiseContext";
-import patchGoal from "../api/patchGoals";
-import getGoals from "../api/getGoals";
-import "./PatchModal.css";
+import getTrans from "../api/getTrans";
+import postTrans from "../api/postTrans";
 
-const PatchGoalModal = ({ goal }) => {
+
+const PostTransModal = () => {
   
   const { userId } = useParams();
 
   const [open, setOpen] = useState(false);
-  const [formData, setFormData] = useState(goal);
   const {updatesData} = useContext(PennyWiseContext);
+  const [formData, setFormData] = useState({userId: userId, type: "", description: "", amount: "", date: "" });
 
   const handleClickOpen = () => {
     setOpen(true);
@@ -41,12 +41,12 @@ const PatchGoalModal = ({ goal }) => {
   const handleSubmit = async () => {
 
     try {
-      await patchGoal(goal._id, formData);
-      const updatedGoalData = await getGoals(userId); 
-      updatesData("setGoals", updatedGoalData);
+      await postTrans(userId, formData);
+      const postedTransData = await getTrans(userId); 
+      updatesData("setTrans", postedTransData);
       handleClose();
     } catch (error) {
-      console.error("Error updating goal:", error);
+      console.error("Error posting transaction:", error);
     }
   };
 
@@ -54,30 +54,20 @@ const PatchGoalModal = ({ goal }) => {
   return (
     <React.Fragment>
       <Button variant="outlined" onClick={handleClickOpen}>
-        Modify
+      New Transaction
       </Button>
       <Dialog open={open} onClose={handleClose}>
-        <DialogTitle sx={{ color: "#FFAD8E" }}>Modify transaction</DialogTitle>
+        <DialogTitle sx={{ color: "#FFAD8E" }}>Add new expense</DialogTitle>
         <Box sx={{ p: "16px" }}>
           <Grid container spacing={2}>
             <Grid item xs={12} sm={6}>
               <TextField
                 fullWidth
+                required
                 autoFocus
                 label="Description"
                 name="description"
                 value={formData.description}
-                onChange={handleChange}
-              />
-            </Grid>
-
-            <Grid item xs={12} sm={6}>
-              <TextField
-                fullWidth
-                label="Amount"
-                type="number"
-                name="amount"
-                value={formData.amount}
                 onChange={handleChange}
               />
             </Grid>
@@ -92,8 +82,8 @@ const PatchGoalModal = ({ goal }) => {
                   value={formData.type}
                   onChange={handleChange}
                 >
-                  <MenuItem value={"daily"}>Daily</MenuItem>
-                  <MenuItem value={"monthly"}>Monthly</MenuItem>
+                  <MenuItem value={"expense"}>Expense</MenuItem>
+                  <MenuItem value={"income"}>Income</MenuItem>
                 </Select>
               </FormControl>
             </Grid>
@@ -101,6 +91,19 @@ const PatchGoalModal = ({ goal }) => {
             <Grid item xs={12} sm={6}>
               <TextField
                 fullWidth
+                required
+                label="Amount"
+                type="number"
+                name="amount"
+                value={formData.amount}
+                onChange={handleChange}
+              />
+            </Grid>
+
+            <Grid item xs={12} sm={6}>
+              <TextField
+                fullWidth
+                required
                 type="date"
                 name="date"
                 value={formData.date}
@@ -119,4 +122,4 @@ const PatchGoalModal = ({ goal }) => {
   );
 };
 
-export default PatchGoalModal;
+export default PostTransModal;

@@ -14,17 +14,17 @@ import {
   Select,
 } from "@mui/material";
 import { PennyWiseContext } from "../../Context/PennyWiseContext";
-import patchGoal from "../api/patchGoals";
 import getGoals from "../api/getGoals";
-import "./PatchModal.css";
+import postGoal from "../api/postGoal";
 
-const PatchGoalModal = ({ goal }) => {
+
+const PostGoalModal = () => {
   
   const { userId } = useParams();
 
   const [open, setOpen] = useState(false);
-  const [formData, setFormData] = useState(goal);
   const {updatesData} = useContext(PennyWiseContext);
+  const [formData, setFormData] = useState({userId: userId, type: "", description: "", amount: "", date: "" });
 
   const handleClickOpen = () => {
     setOpen(true);
@@ -41,12 +41,12 @@ const PatchGoalModal = ({ goal }) => {
   const handleSubmit = async () => {
 
     try {
-      await patchGoal(goal._id, formData);
-      const updatedGoalData = await getGoals(userId); 
-      updatesData("setGoals", updatedGoalData);
+      await postGoal(userId, formData);
+      const postedGoalData = await getGoals(userId); 
+      updatesData("setGoals", postedGoalData);
       handleClose();
     } catch (error) {
-      console.error("Error updating goal:", error);
+      console.error("Error posting goal:", error);
     }
   };
 
@@ -54,10 +54,10 @@ const PatchGoalModal = ({ goal }) => {
   return (
     <React.Fragment>
       <Button variant="outlined" onClick={handleClickOpen}>
-        Modify
+        New Goal
       </Button>
       <Dialog open={open} onClose={handleClose}>
-        <DialogTitle sx={{ color: "#FFAD8E" }}>Modify transaction</DialogTitle>
+        <DialogTitle sx={{ color: "#FFAD8E" }}>Add new Goal</DialogTitle>
         <Box sx={{ p: "16px" }}>
           <Grid container spacing={2}>
             <Grid item xs={12} sm={6}>
@@ -119,4 +119,4 @@ const PatchGoalModal = ({ goal }) => {
   );
 };
 
-export default PatchGoalModal;
+export default PostGoalModal;

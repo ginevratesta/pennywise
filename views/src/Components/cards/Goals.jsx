@@ -13,9 +13,9 @@ const Goals = ({ goal, handleDeleteGoal }) => {
       <CardContent sx={{display: "flex", flexDirection: "column", alignItems: "center"}}>
         <Typography variant="h5" sx={{ color:"#FA98A8" }}>Goal: {goal.amount} €</Typography>
         <Typography>What for: {goal.description}</Typography>
-        <Typography>Saving: {goal.type}</Typography>
+        <Typography>Saving: {goal.savings} € {goal.type}</Typography>
         <Typography variant="subtitle2" color="#9686AB" gutterBottom>
-          {goal.date}
+         Starting: {goal.date}
         </Typography>
       </CardContent>
       <CardActions sx={{display: "flex", justifyContent: "space-around"}}>

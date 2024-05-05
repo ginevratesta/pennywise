@@ -18,14 +18,19 @@ import getGoals from "../api/getGoals";
 import postGoal from "../api/postGoal";
 import "./PostModal.css";
 
-
 const PostGoalModal = () => {
-  
   const { userId } = useParams();
 
   const [open, setOpen] = useState(false);
-  const {updatesData} = useContext(PennyWiseContext);
-  const [formData, setFormData] = useState({userId: userId, type: "", description: "", amount: "", date: "" });
+  const { updatesData } = useContext(PennyWiseContext);
+  const [formData, setFormData] = useState({
+    userId: userId,
+    type: "",
+    description: "",
+    amount: "",
+    savings: "",
+    date: "",
+  });
 
   const handleClickOpen = () => {
     setOpen(true);
@@ -40,10 +45,9 @@ const PostGoalModal = () => {
   };
 
   const handleSubmit = async () => {
-
     try {
       await postGoal(userId, formData);
-      const postedGoalData = await getGoals(userId); 
+      const postedGoalData = await getGoals(userId);
       updatesData("setGoals", postedGoalData);
       handleClose();
     } catch (error) {
@@ -51,10 +55,13 @@ const PostGoalModal = () => {
     }
   };
 
-
   return (
     <React.Fragment>
-      <Button variant="contained" sx={{m: "4px", ":hover": {backgroundColor: "#FFAD8E"}}} onClick={handleClickOpen}>
+      <Button
+        variant="contained"
+        sx={{ m: "4px", ":hover": { backgroundColor: "#FFAD8E" } }}
+        onClick={handleClickOpen}
+      >
         New Goal
       </Button>
       <Dialog open={open} onClose={handleClose}>
@@ -64,6 +71,7 @@ const PostGoalModal = () => {
             <Grid item xs={12} sm={6}>
               <TextField
                 fullWidth
+                required
                 autoFocus
                 label="Description"
                 name="description"
@@ -75,6 +83,7 @@ const PostGoalModal = () => {
             <Grid item xs={12} sm={6}>
               <TextField
                 fullWidth
+                required
                 label="Amount"
                 type="number"
                 name="amount"
@@ -84,9 +93,22 @@ const PostGoalModal = () => {
             </Grid>
 
             <Grid item xs={12} sm={6}>
+              <TextField
+                fullWidth
+                required
+                label="Savings"
+                type="number"
+                name="savings"
+                value={formData.savings}
+                onChange={handleChange}
+              />
+            </Grid>
+
+            <Grid item xs={12} sm={6}>
               <FormControl fullWidth>
                 <InputLabel id="type-label">Type</InputLabel>
                 <Select
+                  required
                   labelId="type-label"
                   id="type"
                   name="type"
@@ -102,6 +124,7 @@ const PostGoalModal = () => {
             <Grid item xs={12} sm={6}>
               <TextField
                 fullWidth
+                required
                 type="date"
                 name="date"
                 value={formData.date}

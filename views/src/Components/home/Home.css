@@ -22,8 +22,13 @@
   .css-11qr2p8-MuiButtonBase-root-MuiButton-root {
     background-color: #ca8eb4;
   }
+
   .css-11qr2p8-MuiButtonBase-root-MuiButton-root:hover {
     background-color: #ffad8e;
+  }
+
+  .css-1yk1gt9-MuiInputBase-root-MuiOutlinedInput-root-MuiSelect-root.Mui-focused .MuiOutlinedInput-notchedOutline {
+    border-color: #FFAD8E;
   }
 }
 

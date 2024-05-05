@@ -16,16 +16,20 @@ import {
 import { PennyWiseContext } from "../../Context/PennyWiseContext";
 import getTrans from "../api/getTrans";
 import postTrans from "../api/postTrans";
-import "./PostModal.css"
-
+import "./PostModal.css";
 
 const PostTransModal = () => {
-  
   const { userId } = useParams();
 
   const [open, setOpen] = useState(false);
-  const {updatesData} = useContext(PennyWiseContext);
-  const [formData, setFormData] = useState({userId: userId, type: "", description: "", amount: "", date: "" });
+  const { updatesData } = useContext(PennyWiseContext);
+  const [formData, setFormData] = useState({
+    userId: userId,
+    type: "",
+    description: "",
+    amount: "",
+    date: "",
+  });
 
   const handleClickOpen = () => {
     setOpen(true);
@@ -40,10 +44,9 @@ const PostTransModal = () => {
   };
 
   const handleSubmit = async () => {
-
     try {
       await postTrans(userId, formData);
-      const postedTransData = await getTrans(userId); 
+      const postedTransData = await getTrans(userId);
       updatesData("setTrans", postedTransData);
       handleClose();
     } catch (error) {
@@ -51,11 +54,14 @@ const PostTransModal = () => {
     }
   };
 
-
   return (
     <React.Fragment>
-      <Button variant="contained" sx={{m: "4px", ":hover": {backgroundColor: "#FFAD8E"}}} onClick={handleClickOpen}>
-      New Transaction
+      <Button
+        variant="contained"
+        sx={{ m: "4px", ":hover": { backgroundColor: "#FFAD8E" } }}
+        onClick={handleClickOpen}
+      >
+        New Transaction
       </Button>
       <Dialog open={open} onClose={handleClose}>
         <DialogTitle sx={{ color: "#FFAD8E" }}>Add new expense</DialogTitle>
@@ -77,6 +83,7 @@ const PostTransModal = () => {
               <FormControl fullWidth>
                 <InputLabel id="type-label">Type</InputLabel>
                 <Select
+                  required
                   labelId="type-label"
                   id="type"
                   name="type"

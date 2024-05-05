@@ -12,6 +12,11 @@ const GoalSchema = new mongoose.Schema(
       required: true,
     },
 
+    savings: {
+      type: Number,
+      required: true,
+    },
+
     description: {
       type: String,
       required: true,
@@ -22,7 +27,7 @@ const GoalSchema = new mongoose.Schema(
       required: true,
       enum: ["daily", "monthly"],
     },
-    
+
     date: {
       type: String,
       required: true,

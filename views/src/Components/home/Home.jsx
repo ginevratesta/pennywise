@@ -23,9 +23,10 @@ const Home = () => {
     const fetchData = async () => {
       try {
         const userData = await getUser(userId);
+        updatesData("setUser", userData);
+        
         const userTrans = await getTrans(userId);
         const userGoals = await getGoals(userId);
-        updatesData("setUser", userData);
         updatesData("setTrans", userTrans);
         updatesData("setGoals", userGoals);
       } catch (error) {

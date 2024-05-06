@@ -8,7 +8,7 @@ const Footer = () => {
             <Grid container>
                 <Grid item xs={12} display="flex" justifyContent="center" alignItems="center" p="24px" sx={{bgcolor: "#9686AB", color: "white"}}>
                     <Typography variant="subtitle2">
-                        Need help? Contact us 333 333 3333
+                        Thanks for joining us!
                     </Typography>
                 </Grid>
             </Grid>

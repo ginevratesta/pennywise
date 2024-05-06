@@ -16,14 +16,14 @@ import {
 import { PennyWiseContext } from "../../Context/PennyWiseContext";
 import patchTrans from "../api/patchTrans";
 import getTrans from "../api/getTrans";
+import getBalance from "../api/getBalance";
 
 const PatchTransModal = ({ single }) => {
-  
   const { userId } = useParams();
 
   const [open, setOpen] = useState(false);
   const [formData, setFormData] = useState(single);
-  const {updatesData} = useContext(PennyWiseContext);
+  const { updatesData } = useContext(PennyWiseContext);
 
   const handleClickOpen = () => {
     setOpen(true);
@@ -38,17 +38,19 @@ const PatchTransModal = ({ single }) => {
   };
 
   const handleSubmit = async () => {
-
     try {
       await patchTrans(single._id, formData);
-      const updatedTransData = await getTrans(userId); 
+
+      const updatedTransData = await getTrans(userId);
+      const userBalance = await getBalance(userId);
+
       updatesData("setTrans", updatedTransData);
+      updatesData("setBalance", userBalance);
       handleClose();
     } catch (error) {
       console.error("Error updating transaction:", error);
     }
   };
-
 
   return (
     <React.Fragment>
@@ -104,6 +106,9 @@ const PatchTransModal = ({ single }) => {
                 name="date"
                 value={formData.date}
                 onChange={handleChange}
+                inputProps={{
+                  max: new Date().toISOString().split("T")[0],
+                }}
               />
             </Grid>
           </Grid>

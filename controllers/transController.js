@@ -10,7 +10,7 @@ exports.postTrans = async (req, res) => {
       type,
       amount,
       description,
-      date
+      date,
     });
 
     await transaction.save();
@@ -22,7 +22,6 @@ exports.postTrans = async (req, res) => {
   }
 };
 
-
 exports.getTrans = async (req, res) => {
   const { userId } = req.params;
 
@@ -30,7 +29,9 @@ exports.getTrans = async (req, res) => {
     const transactions = await Transactions.find({ userId });
 
     if (transactions.length === 0) {
-      return res.status(404).json({ message: "No transactions found for this user" });
+      return res
+        .status(404)
+        .json({ message: "No transactions found for this user" });
     }
 
     res.status(200).json({ transactions });
@@ -40,12 +41,13 @@ exports.getTrans = async (req, res) => {
   }
 };
 
-
 exports.deleteSingleTrans = async (req, res) => {
   const { transactionId } = req.params;
 
   try {
-    const deletedTransaction = await Transactions.findByIdAndDelete(transactionId);
+    const deletedTransaction = await Transactions.findByIdAndDelete(
+      transactionId
+    );
 
     if (!deletedTransaction) {
       return res.status(404).json({ message: "Transaction not found" });
@@ -58,7 +60,6 @@ exports.deleteSingleTrans = async (req, res) => {
   }
 };
 
-
 exports.deleteTrans = async (req, res) => {
   const { userId } = req.params;
 
@@ -66,7 +67,9 @@ exports.deleteTrans = async (req, res) => {
     const result = await Transactions.deleteMany({ userId });
 
     if (result.deletedCount === 0) {
-      return res.status(404).json({ message: "No transactions found for this user" });
+      return res
+        .status(404)
+        .json({ message: "No transactions found for this user" });
     }
 
     res.status(200).json({ message: "Transactions deleted successfully" });
@@ -76,7 +79,6 @@ exports.deleteTrans = async (req, res) => {
   }
 };
 
-
 exports.updateTrans = async (req, res) => {
   const { transactionId } = req.params;
   const updates = req.body;
@@ -85,17 +87,41 @@ exports.updateTrans = async (req, res) => {
     const updatedTransaction = await Transactions.findByIdAndUpdate(
       transactionId,
       updates,
-      { new: true, runValidators: true } 
+      { new: true, runValidators: true }
     );
 
     if (!updatedTransaction) {
       return res.status(404).json({ message: "Transaction not found" });
     }
 
-    res.status(200).json({ message: "Transaction updated successfully", transaction: updatedTransaction });
+    res
+      .status(200)
+      .json({
+        message: "Transaction updated successfully",
+        transaction: updatedTransaction,
+      });
   } catch (error) {
     console.error("Error updating transaction:", error);
     res.status(500).json({ message: "Internal Server Error" });
   }
 };
 
+exports.getUserBalance = async (req, res) => {
+  const { userId } = req.params;
+
+  try {
+    const transactions = await Transactions.find({ userId });
+    let balance = 0;
+    transactions.forEach((trans) => {
+      if (trans.type === "income") {
+        balance += trans.amount;
+      } else {
+        balance -= trans.amount;
+      }
+    });
+    res.status(200).json({ balance });
+  } catch (error) {
+    console.error("Error fetching user balance:", error);
+    res.status(500).json({ message: "Internal Server Error" });
+  }
+};

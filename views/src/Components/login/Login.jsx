@@ -40,12 +40,18 @@ const LoginPage = () => {
     e.preventDefault();
     try {
       if (isUser) {
-        const response = await axios.post("http://localhost:3023/login", loginData);
-        const userId = response.data.user._id
+        const response = await axios.post(
+          "http://localhost:3023/login",
+          loginData
+        );
+        const userId = response.data.user._id;
         navigate(`/home/${userId}`);
       } else {
-        const response = await axios.post("http://localhost:3023/signup", formData);
-        const userId = response.data.newUser._id
+        const response = await axios.post(
+          "http://localhost:3023/signup",
+          formData
+        );
+        const userId = response.data.newUser._id;
         setSuccessAlert(true);
         setTimeout(() => {
           navigate(`/home/${userId}`);
@@ -210,6 +216,9 @@ const LoginPage = () => {
                       type="date"
                       onChange={handleChange}
                       value={formData.dateOfBirth}
+                      inputProps={{
+                        max: new Date().toISOString().split("T")[0],
+                      }}
                     />
                   </Grid>
                 )}
@@ -224,7 +233,7 @@ const LoginPage = () => {
                     onChange={handleChange}
                     value={isUser ? loginData.password : formData.password}
                   />
-                  {!isUser && (<PasswordModal />)}
+                  {!isUser && <PasswordModal />}
                 </Grid>
               </Grid>
 

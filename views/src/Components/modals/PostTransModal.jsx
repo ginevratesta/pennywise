@@ -15,6 +15,7 @@ import {
 } from "@mui/material";
 import { PennyWiseContext } from "../../Context/PennyWiseContext";
 import getTrans from "../api/getTrans";
+import getBalance from "../api/getBalance";
 import postTrans from "../api/postTrans";
 import "./PostModal.css";
 
@@ -47,8 +48,17 @@ const PostTransModal = () => {
     try {
       await postTrans(userId, formData);
       const postedTransData = await getTrans(userId);
+      const userBalance = await getBalance(userId);
       updatesData("setTrans", postedTransData);
+      updatesData("setBalance", userBalance);
       handleClose();
+      setFormData({
+        userId: userId,
+        type: "",
+        description: "",
+        amount: "",
+        date: "",
+      });
     } catch (error) {
       console.error("Error posting transaction:", error);
     }
@@ -116,6 +126,9 @@ const PostTransModal = () => {
                 name="date"
                 value={formData.date}
                 onChange={handleChange}
+                inputProps={{
+                  max: new Date().toISOString().split("T")[0],
+                }}
               />
             </Grid>
           </Grid>

@@ -12,8 +12,7 @@ router.delete('/transactions/:userId/deleteAll', TransController.deleteTrans);
 
 router.patch('/transactions/:transactionId', TransController.updateTrans);
 
-
-
+router.get('/balance/:userId', TransController.getUserBalance);
 
 
 

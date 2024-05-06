@@ -5,6 +5,7 @@ import { PennyWiseContext } from "../../Context/PennyWiseContext";
 import getUser from "../api/getUser";
 import getTrans from "../api/getTrans";
 import getGoals from "../api/getGoals";
+import getBalance from "../api/getBalance";
 import deleteTrans from "../api/deleteTrans";
 import deleteGoal from "../api/deleteGoals";
 import PostTransModal from "../modals/PostTransModal";
@@ -15,7 +16,7 @@ import SideDrawer from "../sideDrawer/SideDrawer";
 import "./Home.css";
 
 const Home = () => {
-  const { updatesData, trans, goals } = useContext(PennyWiseContext);
+  const { updatesData, trans, goals, balance } = useContext(PennyWiseContext);
   const { userId } = useParams();
 
   useEffect(() => {
@@ -41,10 +42,13 @@ const Home = () => {
     try {
       await deleteTrans(transactionId);
 
+      const userBalance = await getBalance(userId);
+
       updatesData(
         "setTrans",
         trans.filter((transaction) => transaction._id !== transactionId)
       );
+      updatesData("setBalance", userBalance);
     } catch (error) {
       console.error("Error deleting transaction:", error);
     }
@@ -67,9 +71,10 @@ const Home = () => {
   return (
     <Box sx={{ flexGrow: 1 }} component="main">
       <Grid container spacing={2} columns={16}>
+
         <Grid
-          item
-          xs={16}
+          container
+          columns={16}
           sx={{
             display: "flex",
             justifyContent: "space-between",
@@ -77,12 +82,26 @@ const Home = () => {
             px: "24px",
           }}
         >
+          <Grid item xs={16} md={8}>
           <SideDrawer />
-          <Box>
+          </Grid>
+          
+          <Grid item xs={16} md={8}>
+          <Box sx={{display: "flex", justifyContent: "end"}}>
             <PostGoalModal />
             <PostTransModal />
           </Box>
+          </Grid>
         </Grid>
+
+        <Grid className="balance" item xs={16} my="16px" mx="36px" pb="16px">
+          <Box sx={{display: "flex", justifyContent: "center"}}>
+            <Typography variant="h4" color="#FFAD8E">
+            Balance: {balance}€
+            </Typography>
+          </Box>
+        </Grid>
+
 
         <Grid
           item
@@ -94,22 +113,25 @@ const Home = () => {
             alignItems: "center",
           }}
         >
-          <Typography variant="h4" sx={{ color: "#FFAD8E", mb: "16px" }}>
+          <Typography variant="h4" sx={{ color: "#9686AB", mb: "16px" }}>
             Transactions
           </Typography>
 
           {trans.length === 0 ? (
-            <Typography sx={{ mt: "16px", color: "#FFCF74" }}>
+            <Typography sx={{ mt: "16px", color: "#FFAD8E" }}>
               No transactions yet
             </Typography>
           ) : (
-            trans.slice().reverse().map((single) => (
-              <Transactions
-                key={single._id}
-                single={single}
-                handleDeleteTrans={handleDeleteTrans}
-              />
-            ))
+            trans
+              .slice()
+              .reverse()
+              .map((single) => (
+                <Transactions
+                  key={single._id}
+                  single={single}
+                  handleDeleteTrans={handleDeleteTrans}
+                />
+              ))
           )}
         </Grid>
 
@@ -123,21 +145,24 @@ const Home = () => {
             alignItems: "center",
           }}
         >
-          <Typography variant="h4" sx={{ color: "#FFAD8E", mb: "16px" }}>
+          <Typography variant="h4" sx={{ color: "#9686AB", mb: "16px" }}>
             Goals
           </Typography>
           {goals.length === 0 ? (
-            <Typography sx={{ mt: "16px", color: "#FFCF74" }}>
+            <Typography sx={{ mt: "16px", color: "#FFAD8E" }}>
               No goals yet
             </Typography>
           ) : (
-            goals.slice().reverse().map((goal) => (
-              <Goals
-                key={goal._id}
-                goal={goal}
-                handleDeleteGoal={handleDeleteGoal}
-              />
-            ))
+            goals
+              .slice()
+              .reverse()
+              .map((goal) => (
+                <Goals
+                  key={goal._id}
+                  goal={goal}
+                  handleDeleteGoal={handleDeleteGoal}
+                />
+              ))
           )}
         </Grid>
       </Grid>

@@ -50,6 +50,14 @@ const PostGoalModal = () => {
       const postedGoalData = await getGoals(userId);
       updatesData("setGoals", postedGoalData);
       handleClose();
+      setFormData({
+        userId: userId,
+        type: "",
+        description: "",
+        amount: "",
+        savings: "",
+        date: "",
+      });
     } catch (error) {
       console.error("Error posting goal:", error);
     }

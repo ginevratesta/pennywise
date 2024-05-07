@@ -1,0 +1,11 @@
+:root {
+    .css-9mgopn-MuiDivider-root {
+        border-color: #F9F871;
+    }
+}
+
+
+  
+  ol li::marker {
+    color: #CA8EB4
+  }

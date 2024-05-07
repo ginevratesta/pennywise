@@ -8,7 +8,7 @@ import {
   Slide,
   Typography,
 } from "@mui/material";
-import "./PasswordModal.css";
+import "./Modals.css";
 
 const Transition = React.forwardRef(function Transition(props, ref) {
   return <Slide direction="up" ref={ref} {...props} />;

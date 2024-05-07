@@ -1,8 +1,9 @@
-import React, { useEffect, useState, useContext, Fragment } from "react";
+import React, { useEffect, useState, useContext } from "react";
 import { Box, Typography, Drawer, Button, Divider } from "@mui/material";
 import { PennyWiseContext } from "../../Context/PennyWiseContext";
 import { useParams } from "react-router-dom";
 import getBalance from "../api/getBalance";
+import "./SideDrawer.css";
 
 const SideDrawer = () => {
   const { userId } = useParams();
@@ -33,35 +34,42 @@ const SideDrawer = () => {
       role="presentation"
       onClick={toggleDrawer(false)}
     >
-      <Typography>
+      <Typography variant="h6" color="#FFAD8E">
         {user.name} {user.surname}'s details
       </Typography>
-      <Typography>Current balance: {balance}€</Typography>
+      <Typography mb="16px" color="#FA98A8">Current balance: {balance}€</Typography>
       <Divider />
-      
-      <Typography mt="16px">GOALS:</Typography>
 
-      {goals?.map((goal) => {
+      <Typography variant="h6" mt="16px" color="#FFCF74">
+        GOALS:
+      </Typography>
 
-        const monthsToSave = Math.ceil(goal.amount / goal.savings);
-        const endDate = new Date(goal.date);
-        endDate.setMonth(endDate.getMonth() + monthsToSave);
-        const formattedEndDate = endDate.toLocaleDateString();
-        const calc = Math.round(goal.amount / monthsToSave);
+      <ol>
+        {goals?.map((goal) => {
+          const monthsToSave = Math.ceil(goal.amount / goal.savings);
+          const endDate = new Date(goal.date);
+          endDate.setMonth(endDate.getMonth() + monthsToSave);
+          const formattedEndDate = endDate.toLocaleDateString();
+          const calc = Math.round(goal.amount / monthsToSave);
 
-        return (
-          <Fragment key={goal._id}>
-            <Box my="16px">
-              <Typography>
-                {goal.description} {goal.amount}€ total {calc}€{" "}
-                {goal.type}
-              </Typography>
-              <Typography>Goal date: {formattedEndDate} in {monthsToSave} months</Typography>
-            </Box>
-            <Divider />
-          </Fragment>
-        );
-      })}
+          return (
+            <li key={goal._id}>
+              <Box my="16px">
+                <Typography variant="h6" color="#CA8EB4">{goal.description}</Typography>
+                <Typography color="#FA98A8">Total amount: {goal.amount}€ </Typography>
+                <Typography color="#FFAD8E">
+                  Estimated {calc}€ {goal.type}
+                </Typography>
+                <Typography color="#FFCF74">Goal date: {formattedEndDate}</Typography>
+                <Typography variant="body2" color="#9686AB">
+                  in {monthsToSave} months
+                </Typography>
+              </Box>
+              <Divider />
+            </li>
+          );
+        })}
+      </ol>
     </Box>
   );
 

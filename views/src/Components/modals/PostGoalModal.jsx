@@ -16,7 +16,8 @@ import {
 import { PennyWiseContext } from "../../Context/PennyWiseContext";
 import getGoals from "../api/getGoals";
 import postGoal from "../api/postGoal";
-import "./PostModal.css";
+import "./Modals.css"
+
 
 const PostGoalModal = () => {
   const { userId } = useParams();

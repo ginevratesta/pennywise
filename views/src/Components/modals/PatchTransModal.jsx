@@ -17,6 +17,8 @@ import { PennyWiseContext } from "../../Context/PennyWiseContext";
 import patchTrans from "../api/patchTrans";
 import getTrans from "../api/getTrans";
 import getBalance from "../api/getBalance";
+import "./Modals.css"
+
 
 const PatchTransModal = ({ single }) => {
   const { userId } = useParams();

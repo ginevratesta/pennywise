@@ -16,6 +16,7 @@ import {
 import { PennyWiseContext } from "../../Context/PennyWiseContext";
 import patchGoal from "../api/patchGoals";
 import getGoals from "../api/getGoals";
+import "./Modals.css"
 
 const PatchGoalModal = ({ goal }) => {
   

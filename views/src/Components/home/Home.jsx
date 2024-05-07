@@ -156,7 +156,7 @@ const Home = () => {
             alignItems: "center",
           }}
         >
-          <Typography variant="h4" sx={{ color: "#9686AB", my: "16px" }}>
+          <Typography variant="h4" sx={{ color: "#9686AB", mb: "16px", mt: {xs: "16px", md: "0"} }}>
             Transactions
           </Typography>
 

@@ -39,6 +39,14 @@ const PostGoalModal = () => {
 
   const handleClose = () => {
     setOpen(false);
+    setFormData({
+      userId: userId,
+      type: "",
+      description: "",
+      amount: "",
+      savings: "",
+      date: "",
+    });
   };
 
   const handleChange = (e) => {

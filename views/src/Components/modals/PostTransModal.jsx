@@ -38,6 +38,13 @@ const PostTransModal = () => {
 
   const handleClose = () => {
     setOpen(false);
+    setFormData({
+      userId: userId,
+      type: "",
+      description: "",
+      amount: "",
+      date: "",
+    });
   };
 
   const handleChange = (e) => {

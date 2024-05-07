@@ -38,6 +38,11 @@ const PostSavingsModal = () => {
 
   const handleClose = () => {
     setOpen(false);
+    setFormData({
+      ...formData,
+      amount: "",
+      goal: "",
+    });
   };
 
   const handleChange = (e) => {

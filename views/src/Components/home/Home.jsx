@@ -12,6 +12,7 @@ import deleteGoal from "../api/deleteGoals";
 import deleteSavings from "../api/deleteSavings";
 import PostTransModal from "../modals/PostTransModal";
 import PostGoalModal from "../modals/PostGoalModal";
+import PostSavingsModal from "../modals/PostSavingsModal";
 import Goals from "../cards/Goals";
 import Transactions from "../cards/Transactions";
 import Savings from "../cards/Savings";
@@ -29,10 +30,12 @@ const Home = () => {
         updatesData("setUser", userData);
         
         const userTrans = await getTrans(userId);
-        const userGoals = await getGoals(userId);
-        const userSavings = await getSavings(userId);
         updatesData("setTrans", userTrans);
+
+        const userGoals = await getGoals(userId);
         updatesData("setGoals", userGoals);
+        
+        const userSavings = await getSavings(userId);
         updatesData("setSavings", userSavings);
       } catch (error) {
         console.error("Error fetching user data:", error);
@@ -110,6 +113,7 @@ const Home = () => {
           <Box sx={{display: "flex", justifyContent: "end"}}>
             <PostGoalModal />
             <PostTransModal />
+            <PostSavingsModal />
           </Box>
           </Grid>
         </Grid>

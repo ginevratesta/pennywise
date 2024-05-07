@@ -1,13 +1,12 @@
 const Savings = require("../models/savings");
 
 exports.createSavings = async (req, res) => {
-  const { userId, goalId } = req.params;
+  const { userId } = req.params;
   const { amount, goal, date } = req.body;
 
   try {
     const savings = new Savings({
       userId,
-      goalId,
       amount,
       goal,
       date,

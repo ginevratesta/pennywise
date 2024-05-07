@@ -7,11 +7,6 @@ const SavingsSchema = new mongoose.Schema(
       required: true,
     },
 
-    goalId: {
-      type: String,
-      required: true,
-    },
-
     amount: {
       type: Number,
       required: true,

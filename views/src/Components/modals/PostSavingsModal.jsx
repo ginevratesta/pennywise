@@ -16,6 +16,7 @@ import {
 import { PennyWiseContext } from "../../Context/PennyWiseContext";
 import getSavings from "../api/getSavings";
 import postSavings from "../api/postSavings";
+import getUserSavings from "../api/getUserSavings";
 import "./Modals.css";
 
 const PostSavingsModal = () => {
@@ -48,6 +49,8 @@ const PostSavingsModal = () => {
       await postSavings(userId, formData);
       const postedSavingsData = await getSavings(userId);
       updatesData("setSavings", postedSavingsData);
+      const userSavings = await getUserSavings(userId);
+        updatesData("setTotalSavings", userSavings);
       handleClose();
       setFormData({
         ...formData,

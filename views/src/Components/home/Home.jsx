@@ -7,6 +7,7 @@ import getTrans from "../api/getTrans";
 import getGoals from "../api/getGoals";
 import getSavings from "../api/getSavings";
 import getBalance from "../api/getBalance";
+import getUserSavings from "../api/getUserSavings";
 import deleteTrans from "../api/deleteTrans";
 import deleteGoal from "../api/deleteGoals";
 import deleteSavings from "../api/deleteSavings";
@@ -20,7 +21,8 @@ import SideDrawer from "../sideDrawer/SideDrawer";
 import "./Home.css";
 
 const Home = () => {
-  const { updatesData, trans, goals, savings, balance } = useContext(PennyWiseContext);
+  const { updatesData, trans, goals, savings, balance } =
+    useContext(PennyWiseContext);
   const { userId } = useParams();
 
   useEffect(() => {
@@ -28,13 +30,13 @@ const Home = () => {
       try {
         const userData = await getUser(userId);
         updatesData("setUser", userData);
-        
+
         const userTrans = await getTrans(userId);
         updatesData("setTrans", userTrans);
 
         const userGoals = await getGoals(userId);
         updatesData("setGoals", userGoals);
-        
+
         const userSavings = await getSavings(userId);
         updatesData("setSavings", userSavings);
       } catch (error) {
@@ -82,10 +84,13 @@ const Home = () => {
     try {
       await deleteSavings(savingsId);
 
+      const userSavings = await getUserSavings(userId);
+
       updatesData(
         "setSavings",
         savings.filter((saving) => saving._id !== savingsId)
       );
+      updatesData("setTotalSavings", userSavings);
     } catch (error) {
       console.error("Error deleting savings:", error);
     }
@@ -94,7 +99,6 @@ const Home = () => {
   return (
     <Box sx={{ flexGrow: 1 }} component="main">
       <Grid container spacing={2} columns={16}>
-
         <Grid
           container
           columns={16}
@@ -106,26 +110,25 @@ const Home = () => {
           }}
         >
           <Grid item xs={16} md={8}>
-          <SideDrawer />
+            <SideDrawer />
           </Grid>
-          
+
           <Grid item xs={16} md={8}>
-          <Box sx={{display: "flex", justifyContent: "end"}}>
-            <PostGoalModal />
-            <PostTransModal />
-            <PostSavingsModal />
-          </Box>
+            <Box sx={{ display: "flex", justifyContent: "end" }}>
+              <PostGoalModal />
+              <PostTransModal />
+              <PostSavingsModal />
+            </Box>
           </Grid>
         </Grid>
 
         <Grid className="balance" item xs={16} my="16px" mx="36px" pb="16px">
-          <Box sx={{display: "flex", justifyContent: "center"}}>
+          <Box sx={{ display: "flex", justifyContent: "center" }}>
             <Typography variant="h4" color="#FFAD8E">
-            Balance: {balance}€
+              Balance: {balance}€
             </Typography>
           </Box>
         </Grid>
-
 
         <Grid
           item
@@ -146,7 +149,8 @@ const Home = () => {
               No transactions yet
             </Typography>
           ) : (
-            trans?.slice()
+            trans
+              ?.slice()
               .reverse()
               .map((single) => (
                 <Transactions
@@ -176,7 +180,8 @@ const Home = () => {
               No goals yet
             </Typography>
           ) : (
-            goals?.slice()
+            goals
+              ?.slice()
               .reverse()
               .map((goal) => (
                 <Goals
@@ -206,7 +211,8 @@ const Home = () => {
               No savings yet
             </Typography>
           ) : (
-            savings?.slice()
+            savings
+              ?.slice()
               .reverse()
               .map((saving) => (
                 <Savings
@@ -217,7 +223,6 @@ const Home = () => {
               ))
           )}
         </Grid>
-
       </Grid>
     </Box>
   );

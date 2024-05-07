@@ -10,7 +10,7 @@ router.patch('/savings/:savingsId', SavingsController.updateSavings);
 
 router.delete('/savings/:savingsId', SavingsController.deleteSavings);
 
-
+router.get('/savingsBalance/:userId', SavingsController.getUserSavings);
 
 
 

@@ -16,6 +16,7 @@ import {
 import { PennyWiseContext } from "../../Context/PennyWiseContext";
 import patchSavings from "../api/patchSavings";
 import getSavings from "../api/getSavings";
+import getUserSavings from "../api/getUserSavings";
 import "./Modals.css";
 
 const PatchSavingsModal = ({ saving }) => {
@@ -40,8 +41,11 @@ const PatchSavingsModal = ({ saving }) => {
   const handleSubmit = async () => {
     try {
       await patchSavings(saving._id, formData);
+
       const updatedSavingsData = await getSavings(userId);
       updatesData("setSavings", updatedSavingsData);
+      const userSavings = await getUserSavings(userId);
+      updatesData("setTotalSavings", userSavings);
       handleClose();
     } catch (error) {
       console.error("Error updating goal:", error);

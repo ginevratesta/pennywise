@@ -64,6 +64,22 @@ exports.deleteSavings = async (req, res) => {
   }
 };
 
+exports.getUserSavings = async (req, res) => {
+  const { userId } = req.params;
+
+  try {
+    const savings = await Savings.find({ userId });
+    let savingsBalance = 0;
+    savings.forEach((saving) => {
+        savingsBalance += saving.amount;
+    });
+    res.status(200).json({ savingsBalance });
+  } catch (error) {
+    console.error("Error fetching user savings:", error);
+    res.status(500).json({ message: "Internal Server Error" });
+  }
+};
+
 
 
 

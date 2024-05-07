@@ -17,6 +17,8 @@ import { PennyWiseContext } from "../../Context/PennyWiseContext";
 import getSavings from "../api/getSavings";
 import postSavings from "../api/postSavings";
 import getUserSavings from "../api/getUserSavings";
+import getGoalSavings from "../api/getGoalSavings";
+import getBalance from "../api/getBalance";
 import "./Modals.css";
 
 const PostSavingsModal = () => {
@@ -43,14 +45,17 @@ const PostSavingsModal = () => {
     setFormData({ ...formData, [name]: value });
   };
 
-  
   const handleSubmit = async () => {
     try {
       await postSavings(userId, formData);
       const postedSavingsData = await getSavings(userId);
+      const userBalance = await getBalance(userId);
+      updatesData("setBalance", userBalance);
       updatesData("setSavings", postedSavingsData);
       const userSavings = await getUserSavings(userId);
-        updatesData("setTotalSavings", userSavings);
+      updatesData("setTotalSavings", userSavings);
+      const goalSavings = await getGoalSavings(userId);
+      updatesData("setGoalSavings", goalSavings);
       handleClose();
       setFormData({
         ...formData,
@@ -75,7 +80,7 @@ const PostSavingsModal = () => {
         <DialogTitle sx={{ color: "#FFAD8E" }}>Add new savings</DialogTitle>
         <Box sx={{ p: "16px" }}>
           <Grid container spacing={2}>
-            <Grid item xs={12} sm={8}>
+            <Grid item xs={12} sm={6}>
               <TextField
                 fullWidth
                 label="Amount"
@@ -85,7 +90,7 @@ const PostSavingsModal = () => {
                 onChange={handleChange}
               />
             </Grid>
-            <Grid item xs={12} sm={8}>
+            <Grid item xs={12} sm={6}>
               <FormControl fullWidth>
                 <InputLabel id="type-label">Goal</InputLabel>
                 <Select

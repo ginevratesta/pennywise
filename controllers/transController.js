@@ -1,4 +1,5 @@
 const Transactions = require("../models/transactions");
+const Savings = require("../models/savings");
 
 exports.postTrans = async (req, res) => {
   const { userId } = req.params;
@@ -90,7 +91,11 @@ exports.getUserBalance = async (req, res) => {
 
   try {
     const transactions = await Transactions.find({ userId });
+
+    const savings = await Savings.find({ userId });
+
     let balance = 0;
+
     transactions.forEach((trans) => {
       if (trans.type === "income") {
         balance += trans.amount;
@@ -98,6 +103,11 @@ exports.getUserBalance = async (req, res) => {
         balance -= trans.amount;
       }
     });
+
+    savings.forEach((saving) => {
+      balance -= saving.amount;
+    });
+
     res.status(200).json({ balance });
   } catch (error) {
     console.error("Error fetching user balance:", error);

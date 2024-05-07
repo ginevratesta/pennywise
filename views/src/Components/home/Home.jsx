@@ -91,6 +91,8 @@ const Home = () => {
         savings.filter((saving) => saving._id !== savingsId)
       );
       updatesData("setTotalSavings", userSavings);
+      const userBalance = await getBalance(userId);
+      updatesData("setBalance", userBalance);
     } catch (error) {
       console.error("Error deleting savings:", error);
     }
@@ -99,7 +101,12 @@ const Home = () => {
   return (
     <Box sx={{ flexGrow: 1 }} component="main">
       <Grid container spacing={2} columns={16}>
-        <Grid
+
+        <Grid container sx={{flexDirection: "column", flexWrap: "wrap-reverse"}}>
+
+          <Grid item sx={{ order: { xs: 2, md:1  } }}>
+
+          <Grid
           container
           columns={16}
           sx={{
@@ -115,21 +122,30 @@ const Home = () => {
 
           <Grid item xs={16} md={8}>
             <Box sx={{ display: "flex", justifyContent: "end" }}>
-              <PostGoalModal />
-              <PostTransModal />
-              <PostSavingsModal />
+              <Grid container sx={{justifyContent: "end"}}>
+                <Grid item><PostGoalModal /></Grid>
+                <Grid item> <PostTransModal /></Grid>
+                <Grid item><PostSavingsModal /></Grid>
+
+              </Grid>
+              
             </Box>
           </Grid>
         </Grid>
+          </Grid>
 
-        <Grid className="balance" item xs={16} my="16px" mx="36px" pb="16px">
+          <Grid item sx={{ order: { xs: 1, md: 2 } }}> 
+          <Grid className="balance" item xs={16} my="16px" mx="36px" pb="16px">
           <Box sx={{ display: "flex", justifyContent: "center" }}>
-            <Typography variant="h4" color="#FFAD8E">
+            <Typography variant="h4" mt="8px" color="#FFAD8E">
               Balance: {balance}€
             </Typography>
           </Box>
         </Grid>
-
+       
+        </Grid>
+        </Grid>
+        
         <Grid
           item
           xs={12}
@@ -140,7 +156,7 @@ const Home = () => {
             alignItems: "center",
           }}
         >
-          <Typography variant="h4" sx={{ color: "#9686AB", mb: "16px" }}>
+          <Typography variant="h4" sx={{ color: "#9686AB", my: "16px" }}>
             Transactions
           </Typography>
 

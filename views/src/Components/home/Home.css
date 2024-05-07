@@ -31,6 +31,20 @@
     border-color: #FFAD8E;
   }
 
+  .css-3dzjca-MuiPaper-root-MuiPopover-paper-MuiMenu-paper {
+    max-height: 250px;
+  }
+
+  .css-6hp17o-MuiList-root-MuiMenu-list {
+    color: #ca8eb4;
+  }
+
+  @media (min-width: 900px) {
+    .css-c3jl9i-MuiGrid-root {
+      height: 50px;
+    }
+}
+
 }
 
 main {

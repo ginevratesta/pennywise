@@ -17,6 +17,8 @@ import { PennyWiseContext } from "../../Context/PennyWiseContext";
 import patchSavings from "../api/patchSavings";
 import getSavings from "../api/getSavings";
 import getUserSavings from "../api/getUserSavings";
+import getGoalSavings from "../api/getGoalSavings";
+import getBalance from "../api/getBalance";
 import "./Modals.css";
 
 const PatchSavingsModal = ({ saving }) => {
@@ -44,8 +46,12 @@ const PatchSavingsModal = ({ saving }) => {
 
       const updatedSavingsData = await getSavings(userId);
       updatesData("setSavings", updatedSavingsData);
+      const userBalance = await getBalance(userId);
+      updatesData("setBalance", userBalance);
       const userSavings = await getUserSavings(userId);
       updatesData("setTotalSavings", userSavings);
+      const goalSavings = await getGoalSavings(userId);
+      updatesData("setGoalSavings", goalSavings);
       handleClose();
     } catch (error) {
       console.error("Error updating goal:", error);

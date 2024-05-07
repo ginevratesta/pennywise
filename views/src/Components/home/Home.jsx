@@ -5,18 +5,21 @@ import { PennyWiseContext } from "../../Context/PennyWiseContext";
 import getUser from "../api/getUser";
 import getTrans from "../api/getTrans";
 import getGoals from "../api/getGoals";
+import getSavings from "../api/getSavings";
 import getBalance from "../api/getBalance";
 import deleteTrans from "../api/deleteTrans";
 import deleteGoal from "../api/deleteGoals";
+import deleteSavings from "../api/deleteSavings";
 import PostTransModal from "../modals/PostTransModal";
 import PostGoalModal from "../modals/PostGoalModal";
 import Goals from "../cards/Goals";
 import Transactions from "../cards/Transactions";
+import Savings from "../cards/Savings";
 import SideDrawer from "../sideDrawer/SideDrawer";
 import "./Home.css";
 
 const Home = () => {
-  const { updatesData, trans, goals, balance } = useContext(PennyWiseContext);
+  const { updatesData, trans, goals, savings, balance } = useContext(PennyWiseContext);
   const { userId } = useParams();
 
   useEffect(() => {
@@ -27,8 +30,10 @@ const Home = () => {
         
         const userTrans = await getTrans(userId);
         const userGoals = await getGoals(userId);
+        const userSavings = await getSavings(userId);
         updatesData("setTrans", userTrans);
         updatesData("setGoals", userGoals);
+        updatesData("setSavings", userSavings);
       } catch (error) {
         console.error("Error fetching user data:", error);
       }
@@ -66,6 +71,20 @@ const Home = () => {
       );
     } catch (error) {
       console.error("Error deleting goal:", error);
+    }
+  };
+
+  const handleDeleteSavings = async (e) => {
+    const savingsId = e.target.closest(".card").id;
+    try {
+      await deleteSavings(savingsId);
+
+      updatesData(
+        "setSavings",
+        savings.filter((saving) => saving._id !== savingsId)
+      );
+    } catch (error) {
+      console.error("Error deleting savings:", error);
     }
   };
 
@@ -107,7 +126,7 @@ const Home = () => {
         <Grid
           item
           xs={12}
-          md={8}
+          md={5}
           sx={{
             display: "flex",
             flexDirection: "column",
@@ -118,13 +137,12 @@ const Home = () => {
             Transactions
           </Typography>
 
-          {trans.length === 0 ? (
+          {trans?.length === 0 ? (
             <Typography sx={{ mt: "16px", color: "#FFAD8E" }}>
               No transactions yet
             </Typography>
           ) : (
-            trans
-              .slice()
+            trans?.slice()
               .reverse()
               .map((single) => (
                 <Transactions
@@ -139,7 +157,7 @@ const Home = () => {
         <Grid
           item
           xs={12}
-          md={8}
+          md={5}
           sx={{
             display: "flex",
             flexDirection: "column",
@@ -149,13 +167,12 @@ const Home = () => {
           <Typography variant="h4" sx={{ color: "#9686AB", mb: "16px" }}>
             Goals
           </Typography>
-          {goals.length === 0 ? (
+          {goals?.length === 0 ? (
             <Typography sx={{ mt: "16px", color: "#FFAD8E" }}>
               No goals yet
             </Typography>
           ) : (
-            goals
-              .slice()
+            goals?.slice()
               .reverse()
               .map((goal) => (
                 <Goals
@@ -166,6 +183,37 @@ const Home = () => {
               ))
           )}
         </Grid>
+
+        <Grid
+          item
+          xs={12}
+          md={5}
+          sx={{
+            display: "flex",
+            flexDirection: "column",
+            alignItems: "center",
+          }}
+        >
+          <Typography variant="h4" sx={{ color: "#9686AB", mb: "16px" }}>
+            Savings
+          </Typography>
+          {savings?.length === 0 ? (
+            <Typography sx={{ mt: "16px", color: "#FFAD8E" }}>
+              No savings yet
+            </Typography>
+          ) : (
+            savings?.slice()
+              .reverse()
+              .map((saving) => (
+                <Savings
+                  key={saving._id}
+                  saving={saving}
+                  handleDeleteSavings={handleDeleteSavings}
+                />
+              ))
+          )}
+        </Grid>
+
       </Grid>
     </Box>
   );

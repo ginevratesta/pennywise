@@ -1,13 +1,25 @@
-GET http://localhost:3023/balance/662fb06cf05965eea6480fdf
-
-####
-
-POST http://localhost:3023/transactions/662fb06cf05965eea6480fdf
+POST http://localhost:3023/savings/662fb06cf05965eea6480fdf/6638eaa2bb220ad0f30df1aa
 Content-Type: application/json
 
 {
-    "type": "income",
-    "amount": 700,
-    "description": "pt-job",
-    "date": "2024-05-05"
+    "amount": 30,
+    "goal": "New Shoes"
 }
+
+
+####
+
+GET http://localhost:3023/savings/662fb06cf05965eea6480fdf
+
+####
+
+PATCH http://localhost:3023/savings/663a3672ead05c78cd95b97b
+Content-Type: application/json
+
+{
+    "amount": 50
+}
+
+####
+
+DELETE http://localhost:3023/savings/663a3672ead05c78cd95b97b

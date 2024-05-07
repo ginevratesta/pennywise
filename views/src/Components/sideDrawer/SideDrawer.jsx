@@ -39,30 +39,46 @@ const SideDrawer = () => {
       </Typography>
       <Typography mb="16px" color="#FA98A8">Current balance: {balance}€</Typography>
       <Divider />
-
+  
       <Typography variant="h6" mt="16px" color="#FFCF74">
         GOALS:
       </Typography>
-
+  
       <ol>
         {goals?.map((goal) => {
-          const monthsToSave = Math.ceil(goal.amount / goal.savings);
-          const endDate = new Date(goal.date);
-          endDate.setMonth(endDate.getMonth() + monthsToSave);
-          const formattedEndDate = endDate.toLocaleDateString();
-          const calc = Math.round(goal.amount / monthsToSave);
-
+          let calc;
+          let formattedEndDate;
+          let frequency;
+          let monthsToSave; 
+          let daysToSave;
+  
+          if (goal.type === "monthly") {
+            monthsToSave = Math.ceil(goal.amount / goal.savings);
+            const endDate = new Date(goal.date);
+            endDate.setMonth(endDate.getMonth() + monthsToSave);
+            formattedEndDate = endDate.toLocaleDateString();
+            calc = Math.round(goal.amount / monthsToSave);
+            frequency = "monthly";
+          } else if (goal.type === "daily") {
+            daysToSave = Math.ceil(goal.amount / goal.savings);
+            const endDate = new Date(goal.date);
+            endDate.setDate(endDate.getDate() + daysToSave);
+            formattedEndDate = endDate.toLocaleDateString();
+            calc = Math.round(goal.amount / daysToSave);
+            frequency = "daily";
+          }
+  
           return (
             <li key={goal._id}>
               <Box my="16px">
                 <Typography variant="h6" color="#CA8EB4">{goal.description}</Typography>
                 <Typography color="#FA98A8">Total amount: {goal.amount}€ </Typography>
                 <Typography color="#FFAD8E">
-                  Estimated {calc}€ {goal.type}
+                  Estimated {calc}€ {frequency}
                 </Typography>
                 <Typography color="#FFCF74">Goal date: {formattedEndDate}</Typography>
                 <Typography variant="body2" color="#9686AB">
-                  in {monthsToSave} months
+                  {frequency === "monthly" ? `in ${monthsToSave} months` : `in ${daysToSave} days`}
                 </Typography>
               </Box>
               <Divider />
@@ -72,6 +88,8 @@ const SideDrawer = () => {
       </ol>
     </Box>
   );
+  
+  
 
   return (
     <div>

@@ -4,12 +4,13 @@ import { PennyWiseContext } from "../../Context/PennyWiseContext";
 import { useParams } from "react-router-dom";
 import getBalance from "../api/getBalance";
 import getUserSavings from "../api/getUserSavings";
+import getGoalSavings from "../api/getGoalSavings";
 import "./SideDrawer.css";
 
 const SideDrawer = () => {
   const { userId } = useParams();
   const [open, setOpen] = useState(false);
-  const { updatesData, user, balance, goals, totalSavings } =
+  const { updatesData, user, balance, goals, totalSavings, goalSavings } =
     useContext(PennyWiseContext);
 
   useEffect(() => {
@@ -19,6 +20,8 @@ const SideDrawer = () => {
         updatesData("setBalance", userBalance);
         const userSavings = await getUserSavings(userId);
         updatesData("setTotalSavings", userSavings);
+        const userGoalSavings = await getGoalSavings(userId);
+        updatesData("setGoalSavings", userGoalSavings);
       } catch (error) {
         console.error(error);
       }
@@ -49,6 +52,28 @@ const SideDrawer = () => {
         Total savings: {totalSavings}€
       </Typography>
       <Divider />
+
+      <Typography variant="h6" mt="16px" color="#FFCF74">
+        GOALS SAVINGS:
+      </Typography>
+
+      <ol>
+        {goalSavings?.map((saving, index) => {
+          return (
+            <li key={index}>
+              <Box my="16px">
+                <Typography variant="h6" color="#CA8EB4">
+                  {saving.goal}
+                </Typography>
+                <Typography color="#FA98A8">
+                  Total saved: {saving.amount}€
+                </Typography>
+              </Box>
+              <Divider />
+            </li>
+          );
+        })}
+      </ol>
 
       <Typography variant="h6" mt="16px" color="#FFCF74">
         GOALS:

@@ -12,6 +12,8 @@ router.delete('/savings/:savingsId', SavingsController.deleteSavings);
 
 router.get('/savingsBalance/:userId', SavingsController.getUserSavings);
 
+router.get('/goalSavings/:userId', SavingsController.getGoalSavings);
+
 
 
 

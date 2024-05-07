@@ -56,24 +56,6 @@ exports.deleteGoal = async (req, res) => {
 };
 
 
-exports.deleteAllGoals = async (req, res) => {
-  const { userId } = req.params;
-
-  try {
-    const result = await Goal.deleteMany({ userId });
-
-    if (result.deletedCount === 0) {
-      return res.status(404).json({ message: "No goals found for this user" });
-    }
-
-    res.status(200).json({ message: "All goals deleted successfully" });
-  } catch (error) {
-    console.error("Error deleting goals:", error);
-    res.status(500).json({ message: "Internal Server Error" });
-  }
-};
-
-
 exports.updateGoal = async (req, res) => {
   const { goalId } = req.params;
   const updates = req.body;

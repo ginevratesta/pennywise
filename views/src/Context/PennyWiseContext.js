@@ -10,6 +10,7 @@ export const PennyWiseDataProvider = ({ children }) => {
   const [isExpense, setIsExpense] = useState(false);
   const [balance, setBalance] = useState(null);
   const [totalSavings, setTotalSavings] = useState(null);
+  const [goalSavings, setGoalSavings] = useState(null);
 
   const updatesData = (actionState, payload) => {
     switch (actionState) {
@@ -41,6 +42,10 @@ export const PennyWiseDataProvider = ({ children }) => {
         setTotalSavings(payload);
         break;
       }
+      case "setGoalSavings": {
+        setGoalSavings(payload);
+        break;
+      }
 
       default:
         return;
@@ -48,7 +53,7 @@ export const PennyWiseDataProvider = ({ children }) => {
   };
 
   return (
-    <PennyWiseContext.Provider value={{ updatesData, user, trans, goals, savings, isExpense, balance, totalSavings }}>
+    <PennyWiseContext.Provider value={{ updatesData, user, trans, goals, savings, isExpense, balance, totalSavings, goalSavings }}>
       {children}
     </PennyWiseContext.Provider>
   );

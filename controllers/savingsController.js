@@ -81,5 +81,28 @@ exports.getUserSavings = async (req, res) => {
 };
 
 
+exports.getGoalSavings = async (req, res) => {
+  const { userId } = req.params;
+  try {
+    const savings = await Savings.find({ userId });
 
+    const goalMap = {};
+    savings.forEach(saving => {
+      if (!goalMap[saving.goal]) {
+        goalMap[saving.goal] = {
+          goal: saving.goal,
+          amount: saving.amount
+        };
+      } else {
+        goalMap[saving.goal].amount += saving.amount;
+      }
+    });
 
+    const goalSavings = Object.values(goalMap);
+
+    res.status(200).json({ goalSavings });
+  } catch (error) {
+    console.error("Error fetching goal savings:", error);
+    res.status(500).json({ message: "Internal Server Error" });
+  }
+};

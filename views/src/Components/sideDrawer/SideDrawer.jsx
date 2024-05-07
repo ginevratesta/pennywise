@@ -53,7 +53,7 @@ const SideDrawer = () => {
       </Typography>
       <Divider />
 
-      <Typography variant="h6" mt="16px" color="#FFCF74">
+      <Typography variant="h6" mt="24px" color="#9686AB">
         GOALS SAVINGS:
       </Typography>
 
@@ -75,7 +75,7 @@ const SideDrawer = () => {
         })}
       </ol>
 
-      <Typography variant="h6" mt="16px" color="#FFCF74">
+      <Typography variant="h6" mt="24px" color="#9686AB">
         GOALS:
       </Typography>
 
@@ -92,14 +92,14 @@ const SideDrawer = () => {
             const endDate = new Date(goal.date);
             endDate.setMonth(endDate.getMonth() + monthsToSave);
             formattedEndDate = endDate.toLocaleDateString();
-            calc = Math.round(goal.amount / monthsToSave);
+            calc = Math.ceil(goal.amount / monthsToSave);
             frequency = "monthly";
           } else if (goal.type === "daily") {
             daysToSave = Math.ceil(goal.amount / goal.savings);
             const endDate = new Date(goal.date);
             endDate.setDate(endDate.getDate() + daysToSave);
             formattedEndDate = endDate.toLocaleDateString();
-            calc = Math.round(goal.amount / daysToSave);
+            calc = Math.ceil(goal.amount / daysToSave);
             frequency = "daily";
           }
 

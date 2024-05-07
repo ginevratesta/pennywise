@@ -123,8 +123,8 @@ const Home = () => {
           <Grid item xs={16} md={8}>
             <Box sx={{ display: "flex", justifyContent: "end" }}>
               <Grid container sx={{justifyContent: "end"}}>
+                <Grid item><PostTransModal /></Grid>
                 <Grid item><PostGoalModal /></Grid>
-                <Grid item> <PostTransModal /></Grid>
                 <Grid item><PostSavingsModal /></Grid>
 
               </Grid>

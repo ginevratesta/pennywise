@@ -62,11 +62,6 @@ const PostSavingsModal = () => {
       const goalSavings = await getGoalSavings(userId);
       updatesData("setGoalSavings", goalSavings);
       handleClose();
-      setFormData({
-        ...formData,
-        amount: "",
-        goal: "",
-      });
     } catch (error) {
       console.error("Error posting savings:", error);
     }

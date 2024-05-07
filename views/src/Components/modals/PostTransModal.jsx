@@ -59,13 +59,6 @@ const PostTransModal = () => {
       updatesData("setTrans", postedTransData);
       updatesData("setBalance", userBalance);
       handleClose();
-      setFormData({
-        userId: userId,
-        type: "",
-        description: "",
-        amount: "",
-        date: "",
-      });
     } catch (error) {
       console.error("Error posting transaction:", error);
     }

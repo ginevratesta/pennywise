@@ -2,6 +2,15 @@
     .css-hip9hq-MuiPaper-root-MuiAppBar-root{
         background-color: #9686AB;
     }
+
+}
+
+#basic_button {
+    color: white;
+}
+
+#basic_button:hover {
+    background-color: #CA8EB4;
 }
 
 img{

@@ -101,51 +101,61 @@ const Home = () => {
   return (
     <Box sx={{ flexGrow: 1 }} component="main">
       <Grid container spacing={2} columns={16}>
-
-        <Grid container sx={{flexDirection: "column", flexWrap: "wrap-reverse"}}>
-
-          <Grid item sx={{ order: { xs: 2, md:1  } }}>
-
-          <Grid
+        <Grid
           container
-          columns={16}
-          sx={{
-            display: "flex",
-            justifyContent: "space-between",
-            alignItems: "center",
-            px: "24px",
-          }}
+          sx={{ flexDirection: "column", flexWrap: "wrap-reverse" }}
         >
-          <Grid item xs={16} md={8}>
-            <SideDrawer />
-          </Grid>
-
-          <Grid item xs={16} md={8}>
-            <Box sx={{ display: "flex", justifyContent: "end" }}>
-              <Grid container sx={{justifyContent: "end"}}>
-                <Grid item><PostTransModal /></Grid>
-                <Grid item><PostGoalModal /></Grid>
-                <Grid item><PostSavingsModal /></Grid>
-
+          <Grid item sx={{ order: { xs: 2, md: 1 } }}>
+            <Grid
+              container
+              columns={16}
+              sx={{
+                display: "flex",
+                justifyContent: "space-between",
+                alignItems: "center",
+                px: "24px",
+              }}
+            >
+              <Grid item xs={16} md={8}>
+                <SideDrawer />
               </Grid>
-              
-            </Box>
-          </Grid>
-        </Grid>
+
+              <Grid item xs={16} md={8} sx={{ mt: { xs: "16px", md: "0" } }}>
+                <Box sx={{ display: "flex", justifyContent: "end" }}>
+                  <Grid container sx={{ justifyContent: "end" }}>
+                    <Grid item>
+                      <PostTransModal />
+                    </Grid>
+                    <Grid item>
+                      <PostGoalModal />
+                    </Grid>
+                    <Grid item>
+                      <PostSavingsModal />
+                    </Grid>
+                  </Grid>
+                </Box>
+              </Grid>
+            </Grid>
           </Grid>
 
-          <Grid item sx={{ order: { xs: 1, md: 2 } }}> 
-          <Grid className="balance" item xs={16} my="16px" mx="36px" pb="16px">
-          <Box sx={{ display: "flex", justifyContent: "center" }}>
-            <Typography variant="h4" mt="8px" color="#FFAD8E">
-              Balance: {balance}€
-            </Typography>
-          </Box>
+          <Grid item sx={{ order: { xs: 1, md: 2 } }}>
+            <Grid
+              className="balance"
+              item
+              xs={16}
+              my="16px"
+              mx="36px"
+              pb="16px"
+            >
+              <Box sx={{ display: "flex", justifyContent: "center" }}>
+                <Typography variant="h4" mt="8px" color="#FFAD8E">
+                  Balance: {balance}€
+                </Typography>
+              </Box>
+            </Grid>
+          </Grid>
         </Grid>
-       
-        </Grid>
-        </Grid>
-        
+
         <Grid
           item
           xs={12}
@@ -156,7 +166,10 @@ const Home = () => {
             alignItems: "center",
           }}
         >
-          <Typography variant="h4" sx={{ color: "#9686AB", mb: "16px", mt: {xs: "16px", md: "0"} }}>
+          <Typography
+            variant="h4"
+            sx={{ color: "#9686AB", mb: "16px", mt: { xs: "16px", md: "0" } }}
+          >
             Transactions
           </Typography>
 

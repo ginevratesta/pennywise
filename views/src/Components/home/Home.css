@@ -27,8 +27,9 @@
     background-color: #ffad8e;
   }
 
-  .css-1yk1gt9-MuiInputBase-root-MuiOutlinedInput-root-MuiSelect-root.Mui-focused .MuiOutlinedInput-notchedOutline {
-    border-color: #FFAD8E;
+  .css-1yk1gt9-MuiInputBase-root-MuiOutlinedInput-root-MuiSelect-root.Mui-focused
+    .MuiOutlinedInput-notchedOutline {
+    border-color: #ffad8e;
   }
 
   .css-3dzjca-MuiPaper-root-MuiPopover-paper-MuiMenu-paper {
@@ -43,8 +44,7 @@
     .css-c3jl9i-MuiGrid-root {
       height: 50px;
     }
-}
-
+  }
 }
 
 main {
@@ -53,6 +53,6 @@ main {
 }
 
 .balance {
-  border-top: 1px solid #FFCF74;
-  border-bottom: 1px solid #FFCF74;
+  border-top: 1px solid #ffcf74;
+  border-bottom: 1px solid #ffcf74;
 }

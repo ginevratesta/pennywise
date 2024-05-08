@@ -12,14 +12,13 @@ import {
   MenuItem,
   InputLabel,
   Select,
-  Alert
+  Alert,
 } from "@mui/material";
 import { PennyWiseContext } from "../../Context/PennyWiseContext";
 import patchTrans from "../api/patchTrans";
 import getTrans from "../api/getTrans";
 import getBalance from "../api/getBalance";
-import "./Modals.css"
-
+import "./Modals.css";
 
 const PatchTransModal = ({ single }) => {
   const { userId } = useParams();
@@ -37,7 +36,7 @@ const PatchTransModal = ({ single }) => {
 
   const handleClose = () => {
     setOpen(false);
-    setSuccessAlert(false)
+    setSuccessAlert(false);
     setErrorAlert(false);
   };
 
@@ -46,6 +45,26 @@ const PatchTransModal = ({ single }) => {
   };
 
   const handleSubmit = async () => {
+    let allFieldsValid = true;
+
+    for (const key in formData) {
+      if (formData.hasOwnProperty(key)) {
+        const value = formData[key];
+        if (value === "" || value === null || value === undefined) {
+          allFieldsValid = false;
+          break;
+        }
+      }
+    }
+
+    if (!allFieldsValid) {
+      setErrorAlert(true);
+      setTimeout(() => {
+        setFormData(single);
+        handleClose();
+      }, 1500);
+      return;
+    }
     try {
       await patchTrans(single._id, formData);
 
@@ -56,13 +75,14 @@ const PatchTransModal = ({ single }) => {
       updatesData("setBalance", userBalance);
 
       setSuccessAlert(true);
-        setTimeout(() => {
-          handleClose();
-        }, 1500);
+      setTimeout(() => {
+        handleClose();
+      }, 1500);
     } catch (error) {
       console.error("Error updating transaction:", error);
       setErrorAlert(true);
       setTimeout(() => {
+        setFormData(single);
         handleClose();
       }, 1500);
     }
@@ -76,12 +96,8 @@ const PatchTransModal = ({ single }) => {
       <Dialog open={open} onClose={handleClose}>
         <DialogTitle sx={{ color: "#FFAD8E" }}>Modify transaction</DialogTitle>
         {successAlert && (
-                <Alert
-                  severity="success"
-                >
-                  Transaction modified successfully!
-                </Alert>
-              )}
+          <Alert severity="success">Transaction modified successfully!</Alert>
+        )}
 
         <Box sx={{ p: "16px" }}>
           <Grid container spacing={2}>
@@ -139,10 +155,8 @@ const PatchTransModal = ({ single }) => {
         </Box>
 
         {errorAlert && (
-                <Alert severity="error">
-                   Error modifying transaction
-                </Alert>
-              )}
+          <Alert severity="error">Error modifying transaction</Alert>
+        )}
 
         <DialogActions>
           <Button onClick={handleClose}>Cancel</Button>

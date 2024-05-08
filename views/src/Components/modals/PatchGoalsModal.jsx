@@ -12,20 +12,19 @@ import {
   MenuItem,
   InputLabel,
   Select,
-  Alert
+  Alert,
 } from "@mui/material";
 import { PennyWiseContext } from "../../Context/PennyWiseContext";
 import patchGoal from "../api/patchGoals";
 import getGoals from "../api/getGoals";
-import "./Modals.css"
+import "./Modals.css";
 
 const PatchGoalModal = ({ goal }) => {
-  
   const { userId } = useParams();
 
   const [open, setOpen] = useState(false);
   const [formData, setFormData] = useState(goal);
-  const {updatesData} = useContext(PennyWiseContext);
+  const { updatesData } = useContext(PennyWiseContext);
 
   const [successAlert, setSuccessAlert] = useState(false);
   const [errorAlert, setErrorAlert] = useState(false);
@@ -36,7 +35,7 @@ const PatchGoalModal = ({ goal }) => {
 
   const handleClose = () => {
     setOpen(false);
-    setSuccessAlert(false)
+    setSuccessAlert(false);
     setErrorAlert(false);
   };
 
@@ -45,25 +44,44 @@ const PatchGoalModal = ({ goal }) => {
   };
 
   const handleSubmit = async () => {
+    let allFieldsValid = true;
 
+    for (const key in formData) {
+      if (formData.hasOwnProperty(key)) {
+        const value = formData[key];
+        if (value === "" || value === null || value === undefined) {
+          allFieldsValid = false;
+          break;
+        }
+      }
+    }
+
+    if (!allFieldsValid) {
+      setErrorAlert(true);
+      setTimeout(() => {
+        setFormData(goal);
+        handleClose();
+      }, 1500);
+      return;
+    }
     try {
       await patchGoal(goal._id, formData);
-      const updatedGoalData = await getGoals(userId); 
+      const updatedGoalData = await getGoals(userId);
       updatesData("setGoals", updatedGoalData);
 
       setSuccessAlert(true);
-        setTimeout(() => {
-          handleClose();
-        }, 1500);
+      setTimeout(() => {
+        handleClose();
+      }, 1500);
     } catch (error) {
       console.error("Error updating goal:", error);
       setErrorAlert(true);
       setTimeout(() => {
+        setFormData(goal);
         handleClose();
       }, 1500);
     }
   };
-
 
   return (
     <React.Fragment>
@@ -73,12 +91,8 @@ const PatchGoalModal = ({ goal }) => {
       <Dialog open={open} onClose={handleClose}>
         <DialogTitle sx={{ color: "#FFAD8E" }}>Modify Goal</DialogTitle>
         {successAlert && (
-                <Alert
-                  severity="success"
-                >
-                  Goal modified successfully!
-                </Alert>
-              )}
+          <Alert severity="success">Goal modified successfully!</Alert>
+        )}
 
         <Box sx={{ p: "16px" }}>
           <Grid container spacing={2}>
@@ -132,11 +146,7 @@ const PatchGoalModal = ({ goal }) => {
           </Grid>
         </Box>
 
-        {errorAlert && (
-                <Alert severity="error">
-                   Error modifying goal
-                </Alert>
-              )}
+        {errorAlert && <Alert severity="error">Error modifying goal</Alert>}
 
         <DialogActions>
           <Button onClick={handleClose}>Cancel</Button>

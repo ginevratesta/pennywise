@@ -12,7 +12,7 @@ import {
   MenuItem,
   InputLabel,
   Select,
-  Alert
+  Alert,
 } from "@mui/material";
 import { PennyWiseContext } from "../../Context/PennyWiseContext";
 import patchSavings from "../api/patchSavings";
@@ -38,7 +38,7 @@ const PatchSavingsModal = ({ saving }) => {
 
   const handleClose = () => {
     setOpen(false);
-    setSuccessAlert(false)
+    setSuccessAlert(false);
     setErrorAlert(false);
   };
 
@@ -47,6 +47,27 @@ const PatchSavingsModal = ({ saving }) => {
   };
 
   const handleSubmit = async () => {
+    let allFieldsValid = true;
+
+    for (const key in formData) {
+      if (formData.hasOwnProperty(key)) {
+        const value = formData[key];
+        if (value === "" || value === null || value === undefined) {
+          allFieldsValid = false;
+          break;
+        }
+      }
+    }
+
+    if (!allFieldsValid) {
+      setErrorAlert(true);
+      setTimeout(() => {
+        setFormData(saving)
+        handleClose();
+      }, 1500);
+      return;
+    }
+
     try {
       await patchSavings(saving._id, formData);
 
@@ -58,15 +79,16 @@ const PatchSavingsModal = ({ saving }) => {
       updatesData("setTotalSavings", userSavings);
       const goalSavings = await getGoalSavings(userId);
       updatesData("setGoalSavings", goalSavings);
-      
+
       setSuccessAlert(true);
-        setTimeout(() => {
-          handleClose();
-        }, 1500);
+      setTimeout(() => {
+        handleClose();
+      }, 1500);
     } catch (error) {
       console.error("Error updating goal:", error);
       setErrorAlert(true);
       setTimeout(() => {
+        setFormData(saving);
         handleClose();
       }, 1500);
     }
@@ -80,12 +102,8 @@ const PatchSavingsModal = ({ saving }) => {
       <Dialog open={open} onClose={handleClose}>
         <DialogTitle sx={{ color: "#FFAD8E" }}>Modify Goal</DialogTitle>
         {successAlert && (
-                <Alert
-                  severity="success"
-                >
-                  Savings modified successfully!
-                </Alert>
-              )}
+          <Alert severity="success">Savings modified successfully!</Alert>
+        )}
 
         <Box sx={{ p: "16px" }}>
           <Grid container spacing={2} columns={16}>
@@ -123,12 +141,7 @@ const PatchSavingsModal = ({ saving }) => {
           </Grid>
         </Box>
 
-        {errorAlert && (
-                <Alert severity="error">
-                   Error modifying savings
-                </Alert>
-              )}
-
+        {errorAlert && <Alert severity="error">Error modifying savings</Alert>}
 
         <DialogActions>
           <Button onClick={handleClose}>Cancel</Button>

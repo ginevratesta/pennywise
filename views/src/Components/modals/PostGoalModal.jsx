@@ -12,6 +12,7 @@ import {
   MenuItem,
   InputLabel,
   Select,
+  Alert
 } from "@mui/material";
 import { PennyWiseContext } from "../../Context/PennyWiseContext";
 import getGoals from "../api/getGoals";
@@ -32,6 +33,8 @@ const PostGoalModal = () => {
     savings: "",
     date: "",
   });
+  const [successAlert, setSuccessAlert] = useState(false);
+  const [errorAlert, setErrorAlert] = useState(false);
 
   const handleClickOpen = () => {
     setOpen(true);
@@ -47,6 +50,8 @@ const PostGoalModal = () => {
       savings: "",
       date: "",
     });
+    setSuccessAlert(false)
+    setErrorAlert(false);
   };
 
   const handleChange = (e) => {
@@ -58,9 +63,17 @@ const PostGoalModal = () => {
       await postGoal(userId, formData);
       const postedGoalData = await getGoals(userId);
       updatesData("setGoals", postedGoalData);
-      handleClose();
+
+      setSuccessAlert(true);
+        setTimeout(() => {
+          handleClose();
+        }, 1500);
     } catch (error) {
       console.error("Error posting goal:", error);
+      setErrorAlert(true);
+      setTimeout(() => {
+        handleClose();
+      }, 1500);
     }
   };
 
@@ -75,6 +88,14 @@ const PostGoalModal = () => {
       </Button>
       <Dialog open={open} onClose={handleClose}>
         <DialogTitle sx={{ color: "#FFAD8E" }}>Add new Goal</DialogTitle>
+        {successAlert && (
+                <Alert
+                  severity="success"
+                >
+                  New Goal added successfully!
+                </Alert>
+              )}
+
         <Box sx={{ p: "16px" }}>
           <Grid container spacing={2}>
             <Grid item xs={12} sm={6}>
@@ -142,6 +163,12 @@ const PostGoalModal = () => {
             </Grid>
           </Grid>
         </Box>
+
+        {errorAlert && (
+                <Alert severity="error">
+                   Error adding goal
+                </Alert>
+              )}
 
         <DialogActions>
           <Button onClick={handleClose}>Cancel</Button>

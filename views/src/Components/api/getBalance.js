@@ -6,6 +6,7 @@ const getBalance = async (userId) => {
     return response.data.balance;
   } catch (error) {
     console.error(`Error getting balance ${error}`);
+    throw new Error("Error");
   }
 };
 

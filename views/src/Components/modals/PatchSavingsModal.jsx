@@ -12,6 +12,7 @@ import {
   MenuItem,
   InputLabel,
   Select,
+  Alert
 } from "@mui/material";
 import { PennyWiseContext } from "../../Context/PennyWiseContext";
 import patchSavings from "../api/patchSavings";
@@ -28,12 +29,17 @@ const PatchSavingsModal = ({ saving }) => {
   const [formData, setFormData] = useState(saving);
   const { updatesData, goals } = useContext(PennyWiseContext);
 
+  const [successAlert, setSuccessAlert] = useState(false);
+  const [errorAlert, setErrorAlert] = useState(false);
+
   const handleClickOpen = () => {
     setOpen(true);
   };
 
   const handleClose = () => {
     setOpen(false);
+    setSuccessAlert(false)
+    setErrorAlert(false);
   };
 
   const handleChange = (e) => {
@@ -52,9 +58,17 @@ const PatchSavingsModal = ({ saving }) => {
       updatesData("setTotalSavings", userSavings);
       const goalSavings = await getGoalSavings(userId);
       updatesData("setGoalSavings", goalSavings);
-      handleClose();
+      
+      setSuccessAlert(true);
+        setTimeout(() => {
+          handleClose();
+        }, 1500);
     } catch (error) {
       console.error("Error updating goal:", error);
+      setErrorAlert(true);
+      setTimeout(() => {
+        handleClose();
+      }, 1500);
     }
   };
 
@@ -65,6 +79,14 @@ const PatchSavingsModal = ({ saving }) => {
       </Button>
       <Dialog open={open} onClose={handleClose}>
         <DialogTitle sx={{ color: "#FFAD8E" }}>Modify Goal</DialogTitle>
+        {successAlert && (
+                <Alert
+                  severity="success"
+                >
+                  Savings modified successfully!
+                </Alert>
+              )}
+
         <Box sx={{ p: "16px" }}>
           <Grid container spacing={2} columns={16}>
             <Grid item xs={16} sm={8}>
@@ -100,6 +122,13 @@ const PatchSavingsModal = ({ saving }) => {
             </Grid>
           </Grid>
         </Box>
+
+        {errorAlert && (
+                <Alert severity="error">
+                   Error modifying savings
+                </Alert>
+              )}
+
 
         <DialogActions>
           <Button onClick={handleClose}>Cancel</Button>

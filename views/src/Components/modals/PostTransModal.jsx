@@ -12,6 +12,7 @@ import {
   MenuItem,
   InputLabel,
   Select,
+  Alert
 } from "@mui/material";
 import { PennyWiseContext } from "../../Context/PennyWiseContext";
 import getTrans from "../api/getTrans";
@@ -31,6 +32,8 @@ const PostTransModal = () => {
     amount: "",
     date: "",
   });
+  const [successAlert, setSuccessAlert] = useState(false);
+  const [errorAlert, setErrorAlert] = useState(false);
 
   const handleClickOpen = () => {
     setOpen(true);
@@ -45,6 +48,8 @@ const PostTransModal = () => {
       amount: "",
       date: "",
     });
+    setSuccessAlert(false)
+    setErrorAlert(false);
   };
 
   const handleChange = (e) => {
@@ -58,9 +63,17 @@ const PostTransModal = () => {
       const userBalance = await getBalance(userId);
       updatesData("setTrans", postedTransData);
       updatesData("setBalance", userBalance);
-      handleClose();
+
+      setSuccessAlert(true);
+        setTimeout(() => {
+          handleClose();
+        }, 1500);
     } catch (error) {
       console.error("Error posting transaction:", error);
+      setErrorAlert(true);
+      setTimeout(() => {
+        handleClose();
+      }, 1500);
     }
   };
 
@@ -75,6 +88,14 @@ const PostTransModal = () => {
       </Button>
       <Dialog open={open} onClose={handleClose}>
         <DialogTitle sx={{ color: "#FFAD8E" }}>Add new expense</DialogTitle>
+        {successAlert && (
+                <Alert
+                  severity="success"
+                >
+                  New Transaction added successfully!
+                </Alert>
+              )}
+
         <Box sx={{ p: "16px" }}>
           <Grid container spacing={2}>
             <Grid item xs={12} sm={6}>
@@ -133,6 +154,12 @@ const PostTransModal = () => {
             </Grid>
           </Grid>
         </Box>
+
+        {errorAlert && (
+                <Alert severity="error">
+                   Error adding transaction
+                </Alert>
+              )}
 
         <DialogActions>
           <Button onClick={handleClose}>Cancel</Button>

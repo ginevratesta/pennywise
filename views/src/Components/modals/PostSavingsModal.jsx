@@ -12,6 +12,7 @@ import {
   MenuItem,
   InputLabel,
   Select,
+  Alert
 } from "@mui/material";
 import { PennyWiseContext } from "../../Context/PennyWiseContext";
 import getSavings from "../api/getSavings";
@@ -31,6 +32,8 @@ const PostSavingsModal = () => {
     amount: "",
     goal: "",
   });
+  const [successAlert, setSuccessAlert] = useState(false);
+  const [errorAlert, setErrorAlert] = useState(false);
 
   const handleClickOpen = () => {
     setOpen(true);
@@ -43,6 +46,8 @@ const PostSavingsModal = () => {
       amount: "",
       goal: "",
     });
+    setSuccessAlert(false)
+    setErrorAlert(false);
   };
 
   const handleChange = (e) => {
@@ -61,9 +66,17 @@ const PostSavingsModal = () => {
       updatesData("setTotalSavings", userSavings);
       const goalSavings = await getGoalSavings(userId);
       updatesData("setGoalSavings", goalSavings);
-      handleClose();
+
+      setSuccessAlert(true);
+        setTimeout(() => {
+          handleClose();
+        }, 1500);
     } catch (error) {
       console.error("Error posting savings:", error);
+      setErrorAlert(true);
+      setTimeout(() => {
+        handleClose();
+      }, 1500);
     }
   };
 
@@ -78,6 +91,14 @@ const PostSavingsModal = () => {
       </Button>
       <Dialog open={open} onClose={handleClose}>
         <DialogTitle sx={{ color: "#FFAD8E" }}>Add new savings</DialogTitle>
+        {successAlert && (
+                <Alert
+                  severity="success"
+                >
+                  New Savings added successfully!
+                </Alert>
+              )}
+
         <Box sx={{ p: "16px" }}>
           <Grid container spacing={2}>
             <Grid item xs={12} sm={6}>
@@ -109,6 +130,12 @@ const PostSavingsModal = () => {
             </Grid>
           </Grid>
         </Box>
+
+        {errorAlert && (
+                <Alert severity="error">
+                   Error adding savings
+                </Alert>
+              )}
 
         <DialogActions>
           <Button onClick={handleClose}>Cancel</Button>

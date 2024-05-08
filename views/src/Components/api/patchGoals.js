@@ -6,6 +6,7 @@ const patchGoal = async (goalId, formData) => {
     console.log("Goal updated successfully");
   } catch (error) {
     console.error("Error updating Goal:", error);
+    throw new Error("Error patching");
   }
 };
 

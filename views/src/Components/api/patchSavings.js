@@ -6,6 +6,7 @@ const patchSavings = async (savingsId, formData) => {
     console.log("Savings updated successfully");
   } catch (error) {
     console.error("Error updating savings:", error);
+    throw new Error("Error patching");
   }
 };
 

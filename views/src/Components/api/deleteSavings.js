@@ -5,7 +5,7 @@ const deleteSavings = async (savingsId) => {
     await axios.delete(`http://localhost:3023/savings/${savingsId}`);
   } catch (error) {
     console.error("Error deleting savings:", error);
-    throw error;
+    throw new Error("Error deleting");
   }
 };
 

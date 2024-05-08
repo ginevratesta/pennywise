@@ -5,7 +5,7 @@ const deleteGoal = async (goalId) => {
     await axios.delete(`http://localhost:3023/goals/${goalId}`);
   } catch (error) {
     console.error("Error deleting goal:", error);
-    throw error;
+    throw new Error("Error deleting");
   }
 };
 

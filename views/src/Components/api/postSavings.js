@@ -6,6 +6,7 @@ const postSavings = async (userId, formData) => {
     console.log("Savings posted succesfully!");
   } catch (error) {
     console.error("Error posting savings", error);
+    throw new Error("Error posting");
   }
 };
 

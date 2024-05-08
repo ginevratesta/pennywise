@@ -6,7 +6,7 @@ const getGoals = async (userId) => {
     return response.data.goals;
   } catch (error) {
     console.error("Error fetching goals:", error);
-    throw error;
+    throw new Error("Error");
   }
 };
 

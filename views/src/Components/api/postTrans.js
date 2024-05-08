@@ -6,6 +6,7 @@ const postTrans = async (userId, formData) => {
     console.log("Transaction posted succesfully!");
   } catch (error) {
     console.error("Error posting transaction", error);
+    throw new Error("Error posting");
   }
 };
 

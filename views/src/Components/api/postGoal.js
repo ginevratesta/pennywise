@@ -6,6 +6,7 @@ const postGoal = async (userId, formData) => {
     console.log("Goal posted succesfully!");
   } catch (error) {
     console.error("Error posting goal", error);
+    throw new Error("Error posting");
   }
 };
 

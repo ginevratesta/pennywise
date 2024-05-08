@@ -6,7 +6,7 @@ const getSavings = async (userId) => {
     return response.data;
   } catch (error) {
     console.error("Error fetching savings:", error);
-    throw error;
+    throw new Error("Error");
   }
 };
 

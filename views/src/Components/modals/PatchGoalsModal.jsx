@@ -12,6 +12,7 @@ import {
   MenuItem,
   InputLabel,
   Select,
+  Alert
 } from "@mui/material";
 import { PennyWiseContext } from "../../Context/PennyWiseContext";
 import patchGoal from "../api/patchGoals";
@@ -26,12 +27,17 @@ const PatchGoalModal = ({ goal }) => {
   const [formData, setFormData] = useState(goal);
   const {updatesData} = useContext(PennyWiseContext);
 
+  const [successAlert, setSuccessAlert] = useState(false);
+  const [errorAlert, setErrorAlert] = useState(false);
+
   const handleClickOpen = () => {
     setOpen(true);
   };
 
   const handleClose = () => {
     setOpen(false);
+    setSuccessAlert(false)
+    setErrorAlert(false);
   };
 
   const handleChange = (e) => {
@@ -44,9 +50,17 @@ const PatchGoalModal = ({ goal }) => {
       await patchGoal(goal._id, formData);
       const updatedGoalData = await getGoals(userId); 
       updatesData("setGoals", updatedGoalData);
-      handleClose();
+
+      setSuccessAlert(true);
+        setTimeout(() => {
+          handleClose();
+        }, 1500);
     } catch (error) {
       console.error("Error updating goal:", error);
+      setErrorAlert(true);
+      setTimeout(() => {
+        handleClose();
+      }, 1500);
     }
   };
 
@@ -58,6 +72,14 @@ const PatchGoalModal = ({ goal }) => {
       </Button>
       <Dialog open={open} onClose={handleClose}>
         <DialogTitle sx={{ color: "#FFAD8E" }}>Modify Goal</DialogTitle>
+        {successAlert && (
+                <Alert
+                  severity="success"
+                >
+                  Goal modified successfully!
+                </Alert>
+              )}
+
         <Box sx={{ p: "16px" }}>
           <Grid container spacing={2}>
             <Grid item xs={12} sm={6}>
@@ -109,6 +131,12 @@ const PatchGoalModal = ({ goal }) => {
             </Grid>
           </Grid>
         </Box>
+
+        {errorAlert && (
+                <Alert severity="error">
+                   Error modifying goal
+                </Alert>
+              )}
 
         <DialogActions>
           <Button onClick={handleClose}>Cancel</Button>

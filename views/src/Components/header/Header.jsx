@@ -44,7 +44,7 @@ const Header = () => {
       <Box sx={{ flexGrow: 1 }}>
         <AppBar position="static">
           <Toolbar sx={{ display: "flex", justifyContent: "space-between" }}>
-            <Box sx={{ display: "flex", alignItems: "center" }}>
+            <Box sx={{ display: "flex", alignItems: "center", cursor: "pointer" }} onClick={() => navigate(`/home/${userId}`)}>
               <img src={logo} alt="logo" />
               <Typography color="inherit">PennyWise</Typography>
             </Box>

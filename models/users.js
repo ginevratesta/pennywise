@@ -20,8 +20,9 @@ const UserSchema = new mongoose.Schema(
     },
 
     dateOfBirth: {
-      type: Date,
+      type: String,
       required: true,
+      default: () => new Date().toISOString().substring(0, 10),
     },
 
     occupation: {

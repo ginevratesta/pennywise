@@ -2,6 +2,12 @@
   .css-mhc70k-MuiGrid-root {
     justify-content: center;
   }
+  .css-1g2dm2e-MuiPaper-root-MuiCard-root {
+    border: 3px solid #ca8eb4;
+    border-radius: 20px;
+    color: #ffad8e;
+    box-shadow: rgba(0, 0, 0, 0.24) 0px 3px 8px;
+  }
 
   .css-qn8p5g {
     border: 3px solid #ca8eb4;
@@ -19,11 +25,27 @@
     margin-left: 20px;
   }
 
+  .css-11qr2p8-MuiButtonBase-root-MuiButton-root {
+    background-color: #ca8eb4;
+  }
+
+  .css-70ffn3-MuiButtonBase-root-MuiButton-root {
+    background-color: #ca8eb4;
+  }
+
   .css-1lpukdo {
     background-color: #ca8eb4;
   }
 
+  .css-11qr2p8-MuiButtonBase-root-MuiButton-root:root {
+    background-color: #ffad8e;
+  }
+
   .css-1lpukdo:hover {
+    background-color: #ffad8e;
+  }
+
+  .css-11qr2p8-MuiButtonBase-root-MuiButton-root:hover {
     background-color: #ffad8e;
   }
 
@@ -36,6 +58,10 @@
   }
 
   .css-r8u8y9 {
+    color: #ca8eb4;
+  }
+
+  .css-6hp17o-MuiList-root-MuiMenu-list {
     color: #ca8eb4;
   }
 

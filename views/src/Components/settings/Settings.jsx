@@ -5,6 +5,7 @@ import getUser from "../api/getUser";
 import patchUser from "../api/patchUser";
 import checkOldPassword from "../api/checkOldPassword";
 import DeleteUserModal from "../modals/DeleteUserModal";
+import PasswordModal from "../modals/PasswordModal"
 import {
   Container,
   Box,
@@ -30,6 +31,7 @@ const Settings = () => {
   });
 
   const [isPassword, setIsPassword] = useState(false);
+  const [isNewPass, setIsNewPass] = useState(false);
 
   const [successAlert, setSuccessAlert] = useState(false);
   const [errorAlert, setErrorAlert] = useState(false);
@@ -61,6 +63,13 @@ const Settings = () => {
   const handleSubmit = async (e) => {
     e.preventDefault();
 
+    const filteredData = {};
+    for (const key in formData) {
+      if (formData[key] !== null && formData[key] !== "") {
+        filteredData[key] = formData[key];
+      }
+    }
+
     if (isPassword) {
       try {
         await checkOldPassword(userId, formData.password);
@@ -68,6 +77,27 @@ const Settings = () => {
         setSuccessAlert(true);
         setTimeout(() => {
           setSuccessAlert(false);
+          setIsPassword(false);
+        }, 1500);
+        
+        setIsNewPass(true);
+
+      } catch (error) {
+        console.error("Error verifying current password:", error);
+        setErrorAlert(true);
+        return;
+      }
+    }
+
+    if(isNewPass) {
+      
+      try {
+        await patchUser(userId, filteredData);
+
+        setSuccessAlert(true);
+        setTimeout(() => {
+          setSuccessAlert(false);
+          setIsNewPass(false);
         }, 1500);
 
       } catch (error) {
@@ -77,12 +107,6 @@ const Settings = () => {
       }
     }
 
-    const filteredData = {};
-    for (const key in formData) {
-      if (formData[key] !== null && formData[key] !== "") {
-        filteredData[key] = formData[key];
-      }
-    }
 
     try {
       await patchUser(userId, filteredData);
@@ -139,11 +163,11 @@ const Settings = () => {
             <Alert severity="success">Update successfull!</Alert>
           )}
 
-          {isPassword ? (
+          {isPassword || isNewPass ? (
             <Grid container spacing={2}>
               <Grid item xs={12}>
                 <Typography variant="body1" color="#FFAD8E">
-                  Old password
+                  {isNewPass ? "New Password" : "Old Password"}
                 </Typography>
                 <TextField
                   fullWidth
@@ -152,6 +176,7 @@ const Settings = () => {
                   onChange={handleChange}
                   value={formData.password}
                 />
+                <PasswordModal />
               </Grid>
 
             </Grid>
@@ -239,7 +264,7 @@ const Settings = () => {
               ":hover": { bgcolor: "#FFAD8E" },
             }}
           >
-            {isPassword ? "Change password" : "Modify"}
+            {isPassword ? "Send" : "Modify"}
           </Button>
 
           <Typography

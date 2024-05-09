@@ -41,14 +41,14 @@ const LoginPage = () => {
     try {
       if (isUser) {
         const response = await axios.post(
-          "http://localhost:3023/login",
+          `${process.env.REACT_APP_BASE_URL}/login`,
           loginData
         );
         const userId = response.data.user._id;
         navigate(`/home/${userId}`);
       } else {
         const response = await axios.post(
-          "http://localhost:3023/signup",
+          `${process.env.REACT_APP_BASE_URL}/signup`,
           formData
         );
         const userId = response.data.newUser._id;

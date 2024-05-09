@@ -3,6 +3,7 @@ import { useParams } from "react-router-dom";
 import { PennyWiseContext } from "../../Context/PennyWiseContext";
 import getUser from "../api/getUser";
 import patchUser from "../api/patchUser";
+import checkOldPassword from "../api/checkOldPassword";
 import DeleteUserModal from "../modals/DeleteUserModal";
 import {
   Container,
@@ -25,7 +26,10 @@ const Settings = () => {
     email: "",
     dateOfBirth: "",
     occupation: "",
+    password: ""
   });
+
+  const [isPassword, setIsPassword] = useState(false);
 
   const [successAlert, setSuccessAlert] = useState(false);
   const [errorAlert, setErrorAlert] = useState(false);
@@ -43,7 +47,12 @@ const Settings = () => {
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [userId]);
 
-  
+  const handleIsPassword = () => {
+    setIsPassword(true);
+    if (isPassword) {
+      setIsPassword(false);
+    }
+  };
 
   const handleChange = (e) => {
     setFormData({ ...formData, [e.target.id]: e.target.value });
@@ -51,6 +60,22 @@ const Settings = () => {
 
   const handleSubmit = async (e) => {
     e.preventDefault();
+
+    if (isPassword) {
+      try {
+        await checkOldPassword(userId, formData.password);
+
+        setSuccessAlert(true);
+        setTimeout(() => {
+          setSuccessAlert(false);
+        }, 1500);
+
+      } catch (error) {
+        console.error("Error verifying current password:", error);
+        setErrorAlert(true);
+        return;
+      }
+    }
 
     const filteredData = {};
     for (const key in formData) {
@@ -79,6 +104,7 @@ const Settings = () => {
       email: "",
       dateOfBirth: "",
       occupation: "",
+      password: ""
     });
   };
 
@@ -113,81 +139,88 @@ const Settings = () => {
             <Alert severity="success">Update successfull!</Alert>
           )}
 
-          <Grid container spacing={2}>
-            <Grid item xs={12} md={6} color="#FFAD8E">
-              <Typography>{user.name}</Typography>
-              <TextField
-                fullWidth
-                id="name"
-                label="Name"
-                autoComplete="first-name"
-                onChange={handleChange}
-                value={formData.name}
-              />
-            </Grid>
+          {isPassword ? (
+            <Grid container spacing={2}>
+              <Grid item xs={12}>
+                <Typography variant="body1" color="#FFAD8E">
+                  Old password
+                </Typography>
+                <TextField
+                  fullWidth
+                  id="password"
+                  type="password"
+                  onChange={handleChange}
+                  value={formData.password}
+                />
+              </Grid>
 
-            <Grid item xs={12} md={6} color="#FFAD8E">
-              <Typography>{user.surname}</Typography>
-              <TextField
-                fullWidth
-                id="surname"
-                label="Surname"
-                autoComplete="family-name"
-                onChange={handleChange}
-                value={formData.surname}
-              />
             </Grid>
+          ) : (
+            <Grid container spacing={2}>
+              <Grid item xs={12} md={6} color="#FFAD8E">
+                <Typography>{user.name}</Typography>
+                <TextField
+                  fullWidth
+                  id="name"
+                  label="Name"
+                  autoComplete="first-name"
+                  onChange={handleChange}
+                  value={formData.name}
+                />
+              </Grid>
 
-            <Grid item xs={12} color="#FFAD8E">
-              <Typography>{user.email}</Typography>
-              <TextField
-                fullWidth
-                id="email"
-                label="Email"
-                autoComplete="email"
-                onChange={handleChange}
-                value={formData.email}
-              />
+              <Grid item xs={12} md={6} color="#FFAD8E">
+                <Typography>{user.surname}</Typography>
+                <TextField
+                  fullWidth
+                  id="surname"
+                  label="Surname"
+                  autoComplete="family-name"
+                  onChange={handleChange}
+                  value={formData.surname}
+                />
+              </Grid>
+
+              <Grid item xs={12} color="#FFAD8E">
+                <Typography>{user.email}</Typography>
+                <TextField
+                  fullWidth
+                  id="email"
+                  label="Email"
+                  autoComplete="email"
+                  onChange={handleChange}
+                  value={formData.email}
+                />
+              </Grid>
+
+              <Grid item xs={12} color="#FFAD8E">
+                <Typography>{user.occupation}</Typography>
+                <TextField
+                  fullWidth
+                  id="occupation"
+                  label="Occupation"
+                  onChange={handleChange}
+                  value={formData.occupation}
+                />
+              </Grid>
+
+              <Grid item xs={12} color="#FFAD8E">
+                <Typography sx={{ marginInlineEnd: "24px", width: "100px" }}>
+                  {user.dateOfBirth}
+                </Typography>
+                <TextField
+                  fullWidth
+                  id="dateOfBirth"
+                  type="date"
+                  onChange={handleChange}
+                  value={formData.dateOfBirth}
+                  inputProps={{
+                    max: new Date().toISOString().split("T")[0],
+                  }}
+                />
+              </Grid>
             </Grid>
-
-            <Grid item xs={12} color="#FFAD8E">
-              <Typography>{user.occupation}</Typography>
-              <TextField
-                fullWidth
-                id="occupation"
-                label="Occupation"
-                onChange={handleChange}
-                value={formData.occupation}
-              />
-            </Grid>
-
-            <Grid item xs={12} color="#FFAD8E">
-              <Typography sx={{ marginInlineEnd: "24px", width: "100px" }}>
-                {user.dateOfBirth}
-              </Typography>
-              <TextField
-                fullWidth
-                id="dateOfBirth"
-                type="date"
-                onChange={handleChange}
-                value={formData.dateOfBirth}
-                inputProps={{
-                  max: new Date().toISOString().split("T")[0],
-                }}
-              />
-            </Grid>
-
-            {/* <Grid item xs={12}>
-                <Typography variant="body1" color="#FFAD8E">Password</Typography>
-                  <TextField
-                    fullWidth
-                    id="password"
-                    type="password"
-                    onChange={handleChange}
-                    value={formData.password}
-                  />
-                </Grid> */}
-          </Grid>
+          )}
 
           {errorAlert && (
             <Alert severity="error" onClose={() => setErrorAlert(false)}>
@@ -206,23 +239,25 @@ const Settings = () => {
               ":hover": { bgcolor: "#FFAD8E" },
             }}
           >
-            Modify
+            {isPassword ? "Change password" : "Modify"}
           </Button>
 
-          {/* <Grid container>
-                <Grid item xs={12}>
-                  <Typography
-                    variant="subtitle2"
-                    sx={{ textAlign: "right" }}
-                    id="signin"
-                  >
-                    Modify user
-                  </Typography>
-                </Grid>
-              </Grid> */}
+          <Typography
+            onClick={handleIsPassword}
+            sx={{
+              cursor: "pointer",
+              color: "#FFAD8E",
+              textAlign: "right",
+              ":hover": { color: "#9686AB" },
+            }}
+          >
+            {isPassword
+              ? "Do you want to change your details?"
+              : "Do you want to change your password?"}
+          </Typography>
         </Box>
       </Box>
-      <DeleteUserModal userId={userId}/>
+      <DeleteUserModal userId={userId} />
     </Container>
   );
 };

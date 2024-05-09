@@ -110,6 +110,29 @@ exports.updateUser = async (req, res) => {
 };
 
 
+exports.checkOldPassword =  async (req, res) => {
+  const { userId } = req.params;
+  const { password } = req.body;
+
+  try {
+    const user = await User.findById(userId);
+    if (!user) {
+      return res.status(404).json({ message: 'User not found' });
+    }
+
+    const isPasswordCorrect = await bcrypt.compare(password, user.password);
+    if (!isPasswordCorrect) {
+      return res.status(400).json({ message: 'Current password is incorrect' });
+    }
+
+    res.status(200).json({ message: 'Current password is correct' });
+  } catch (error) {
+    console.error('Error verifying password:', error);
+    res.status(500).json({ message: 'Internal Server Error' });
+  }
+};
+
+
 exports.deleteUser = async (req, res) => {
   const { userId } = req.params;
 

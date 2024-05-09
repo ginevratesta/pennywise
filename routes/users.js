@@ -10,6 +10,8 @@ router.get('/getUserById/:userId', UsersController.getUserById);
 
 router.patch('/updateUser/:userId', UsersController.updateUser);
 
+router.post('/updatePassword/:userId', UsersController.checkOldPassword);
+
 router.delete('/deleteUser/:userId', UsersController.deleteUser);
 
 module.exports = router;

@@ -19,16 +19,15 @@
     margin-left: 20px;
   }
 
-  .css-11qr2p8-MuiButtonBase-root-MuiButton-root {
+  .css-1lpukdo {
     background-color: #ca8eb4;
   }
 
-  .css-11qr2p8-MuiButtonBase-root-MuiButton-root:hover {
+  .css-1lpukdo:hover {
     background-color: #ffad8e;
   }
 
-  .css-1yk1gt9-MuiInputBase-root-MuiOutlinedInput-root-MuiSelect-root.Mui-focused
-    .MuiOutlinedInput-notchedOutline {
+  .css-1bp1ao6.Mui-focused .MuiOutlinedInput-notchedOutline {
     border-color: #ffad8e;
   }
 
@@ -36,7 +35,7 @@
     max-height: 250px;
   }
 
-  .css-6hp17o-MuiList-root-MuiMenu-list {
+  .css-70qvj9 {
     color: #ca8eb4;
   }
 

@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useContext, useState } from "react";
 import { useLocation, useNavigate, useParams } from "react-router-dom";
 import {
   AppBar,
@@ -12,6 +12,7 @@ import {
 import SettingsIcon from "@mui/icons-material/Settings";
 import LogoutIcon from "@mui/icons-material/Logout";
 import logo from "../pics/penny.png";
+import { PennyWiseContext } from "../../Context/PennyWiseContext";
 import "./Header.css";
 
 const Header = () => {
@@ -20,6 +21,8 @@ const Header = () => {
   const location = useLocation();
   const navigate = useNavigate();
   const { userId } = useParams();
+
+  const { updatesData } = useContext(PennyWiseContext);
 
   const handleClick = (event) => {
     setAnchorEl(event.currentTarget);
@@ -37,20 +40,24 @@ const Header = () => {
   const handleLogOut = () => {
     setAnchorEl(null);
     navigate(`/`);
+    updatesData("setTrans", []);
+    updatesData("setGoals", []);
+    updatesData("setSavings", []);
   };
-
-  const pippo = () => {
-    localStorage.setItem("lastname", "Smith");
-   const name =  localStorage.getItem("lastname");
-   console.log(name)
-  }
 
   return (
     <>
       <Box sx={{ flexGrow: 1 }}>
         <AppBar position="static">
           <Toolbar sx={{ display: "flex", justifyContent: "space-between" }}>
-            <Box sx={{ display: "flex", alignItems: "center", cursor: "pointer" }} onClick={pippo()}>
+            <Box
+              sx={{ display: "flex", alignItems: "center", cursor: "pointer" }}
+              onClick={() => {
+                if (userId) {
+                  navigate(`/home/${userId}`);
+                }
+              }}
+            >
               <img src={logo} alt="logo" />
               <Typography color="inherit">PennyWise</Typography>
             </Box>

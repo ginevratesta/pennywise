@@ -26,12 +26,6 @@ exports.getSavings = async (req, res) => {
     const { userId } = req.params;
     const savings = await Savings.find({ userId });
 
-    if (savings.length === 0) {
-      return res
-        .status(404)
-        .json({ message: "No savings found for this user" });
-    }
-
     res.status(200).json(savings);
   } catch (error) {
     console.error("Error fetching savings:", error);

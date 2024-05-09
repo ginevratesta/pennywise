@@ -36,8 +36,11 @@ const LoginPage = () => {
 
   const [isLoading, setIsLoading] = useState(true);
 
+  localStorage.clear();
+
   const handleSubmit = async (e) => {
     e.preventDefault();
+
     try {
       if (isUser) {
         const response = await axios.post(
@@ -45,6 +48,7 @@ const LoginPage = () => {
           loginData
         );
         const userId = response.data.user._id;
+        localStorage.setItem("id", userId);
         navigate(`/home/${userId}`);
       } else {
         const response = await axios.post(
@@ -52,9 +56,16 @@ const LoginPage = () => {
           formData
         );
         const userId = response.data.newUser._id;
+        localStorage.setItem("id", userId);
         setSuccessAlert(true);
         setTimeout(() => {
           navigate(`/home/${userId}`);
+          const userStorage = {
+            name: formData.name,
+            surname: formData.surname,
+            id: userId,
+          };
+          localStorage.setItem("user", JSON.stringify(userStorage));
         }, 1500);
       }
     } catch (error) {

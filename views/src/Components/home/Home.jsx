@@ -23,32 +23,35 @@ import "./Home.css";
 const Home = () => {
   const { updatesData, trans, goals, savings, balance } =
     useContext(PennyWiseContext);
-    
+
   const { userId } = useParams();
 
-  console.log(userId)
-
   useEffect(() => {
-    const fetchData = async () => {
-      try {
-        const userData = await getUser(userId);
-        updatesData("setUser", userData);
-        console.log(userId)
-        const userTrans = await getTrans(userId);
-        console.log(userTrans)
-        updatesData("setTrans", userTrans);
+    updatesData("setTrans", []);
+    updatesData("setGoals", []);
+    updatesData("setSavings", []);
 
-        const userGoals = await getGoals(userId);
-        updatesData("setGoals", userGoals);
+    if (userId) {
+      const fetchData = async () => {
+        try {
+          const userData = await getUser(userId);
+          updatesData("setUser", userData);
 
-        const userSavings = await getSavings(userId);
-        updatesData("setSavings", userSavings);
-      } catch (error) {
-        console.error("Error fetching user data:", error);
-      }
-    };
+          const userTrans = await getTrans(userId);
+          updatesData("setTrans", userTrans);
 
-    fetchData();
+          const userGoals = await getGoals(userId);
+          updatesData("setGoals", userGoals);
+
+          const userSavings = await getSavings(userId);
+          updatesData("setSavings", userSavings);
+        } catch (error) {
+          console.error("Error fetching user data:", error);
+        }
+      };
+
+      fetchData();
+    }
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [userId]);
 

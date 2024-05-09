@@ -39,12 +39,18 @@ const Header = () => {
     navigate(`/`);
   };
 
+  const pippo = () => {
+    localStorage.setItem("lastname", "Smith");
+   const name =  localStorage.getItem("lastname");
+   console.log(name)
+  }
+
   return (
     <>
       <Box sx={{ flexGrow: 1 }}>
         <AppBar position="static">
           <Toolbar sx={{ display: "flex", justifyContent: "space-between" }}>
-            <Box sx={{ display: "flex", alignItems: "center", cursor: "pointer" }} onClick={() => navigate(`/home/${userId}`)}>
+            <Box sx={{ display: "flex", alignItems: "center", cursor: "pointer" }} onClick={pippo()}>
               <img src={logo} alt="logo" />
               <Typography color="inherit">PennyWise</Typography>
             </Box>

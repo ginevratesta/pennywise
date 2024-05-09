@@ -15,7 +15,6 @@ import {
   TextField,
   Alert,
 } from "@mui/material";
-import "./Settings.css";
 
 const Settings = () => {
   const { userId } = useParams();

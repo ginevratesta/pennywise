@@ -23,15 +23,19 @@ import "./Home.css";
 const Home = () => {
   const { updatesData, trans, goals, savings, balance } =
     useContext(PennyWiseContext);
+    
   const { userId } = useParams();
+
+  console.log(userId)
 
   useEffect(() => {
     const fetchData = async () => {
       try {
         const userData = await getUser(userId);
         updatesData("setUser", userData);
-
+        console.log(userId)
         const userTrans = await getTrans(userId);
+        console.log(userTrans)
         updatesData("setTrans", userTrans);
 
         const userGoals = await getGoals(userId);

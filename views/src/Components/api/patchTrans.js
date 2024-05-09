@@ -3,7 +3,7 @@ import axios from "axios";
 const patchTrans = async (transactionId, formData) => {
   try {
     await axios.patch(
-      `http://localhost:3023/transactions/${transactionId}`,
+      `${REACT_APP_URL}/transactions/${transactionId}`,
       formData
     );
     console.log("Transaction updated successfully");

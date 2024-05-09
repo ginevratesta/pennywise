@@ -3,7 +3,7 @@ import axios from "axios";
 const getUser = async (userId) => {
   try {
     const response = await axios.get(
-      `http://localhost:3023/getUserById/${userId}`
+      `${REACT_APP_URL}/getUserById/${userId}`
     );
     return response.data.user;
   } catch (error) {

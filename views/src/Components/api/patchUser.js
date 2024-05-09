@@ -3,7 +3,7 @@ import axios from "axios";
 const patchUser = async (userId, formData) => {
   try {
     await axios.patch(
-      `http://localhost:3023/updateUser/${userId}`,
+      `${REACT_APP_URL}/updateUser/${userId}`,
       formData
     );
     console.log("User updated successfully");

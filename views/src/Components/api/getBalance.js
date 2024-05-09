@@ -2,7 +2,7 @@ import axios from "axios";
 
 const getBalance = async (userId) => {
   try {
-    const response = await axios.get(`http://localhost:3023/balance/${userId}`);
+    const response = await axios.get(`${REACT_APP_URL}/balance/${userId}`);
     return response.data.balance;
   } catch (error) {
     console.error(`Error getting balance ${error}`);

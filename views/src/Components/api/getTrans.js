@@ -3,7 +3,7 @@ import axios from "axios";
 const getTrans = async (userId) => {
   try {
     const response = await axios.get(
-      `http://localhost:3023/transactions/${userId}`
+      `${REACT_APP_URL}/transactions/${userId}`
     );
     return response.data.transactions;
   } catch (error) {

@@ -2,7 +2,7 @@ import axios from "axios";
 
 const patchSavings = async (savingsId, formData) => {
   try {
-    await axios.patch(`${REACT_APP_URL}/savings/${savingsId}`, formData);
+    await axios.patch(`${process.env.REACT_APP_BASE_URL}/savings/${savingsId}`, formData);
     console.log("Savings updated successfully");
   } catch (error) {
     console.error("Error updating savings:", error);

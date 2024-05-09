@@ -3,7 +3,7 @@ import axios from "axios";
 const getUserSavings = async (userId) => {
   try {
     const response = await axios.get(
-      `${REACT_APP_URL}/savingsBalance/${userId}`
+      `${process.env.REACT_APP_BASE_URL}/savingsBalance/${userId}`
     );
     return response.data.savingsBalance;
   } catch (error) {

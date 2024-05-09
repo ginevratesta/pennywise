@@ -3,14 +3,14 @@
     justify-content: center;
   }
 
-  .css-1g2dm2e-MuiPaper-root-MuiCard-root {
+  .css-qn8p5g {
     border: 3px solid #ca8eb4;
     border-radius: 20px;
     color: #ffad8e;
     box-shadow: rgba(0, 0, 0, 0.24) 0px 3px 8px;
   }
 
-  .css-1g2dm2e-MuiPaper-root-MuiCard-root:nth-child(odd) {
+  .css-qn8p5g:nth-child(odd) {
     border-color: #fa98a8;
   }
 

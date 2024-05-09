@@ -18,7 +18,11 @@
     background-color: #fde5b7;
   }
 
-  .css-1yk1gt9-MuiInputBase-root-MuiOutlinedInput-root-MuiSelect-root.Mui-focused .MuiOutlinedInput-notchedOutline {
+  .css-1ald77x.Mui-focused {
+    color: #ffad8e;
+  }
+
+  .css-fvipm8.Mui-focused .MuiOutlinedInput-notchedOutline {
     border-color: #ffad8e;
   }
 }

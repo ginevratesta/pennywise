@@ -4,7 +4,8 @@
   "description": "",
   "main": "main.js",
   "scripts": {
-    "dev": "nodemon main.js"
+    "dev": "nodemon main.js",
+    "prod": "pm2-runtime start main.js -i --exp-backoff-restart-delay=100"
   },
   "keywords": [],
   "author": "",
@@ -14,7 +15,8 @@
     "cors": "^2.8.5",
     "dotenv": "^16.4.5",
     "express": "^4.19.2",
-    "mongoose": "^8.3.1"
+    "mongoose": "^8.3.1",
+    "pm2": "^5.3.1"
   },
   "devDependencies": {
     "nodemon": "^3.1.0"

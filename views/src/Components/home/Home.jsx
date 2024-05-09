@@ -163,10 +163,12 @@ const Home = () => {
           </Grid>
         </Grid>
 
+        <Grid container spacing={2} mt="16px">
+
         <Grid
           item
           xs={12}
-          md={5}
+          md={4}
           sx={{
             display: "flex",
             flexDirection: "column",
@@ -201,7 +203,7 @@ const Home = () => {
         <Grid
           item
           xs={12}
-          md={5}
+          md={4}
           sx={{
             display: "flex",
             flexDirection: "column",
@@ -232,7 +234,7 @@ const Home = () => {
         <Grid
           item
           xs={12}
-          md={5}
+          md={4}
           sx={{
             display: "flex",
             flexDirection: "column",
@@ -258,6 +260,7 @@ const Home = () => {
                 />
               ))
           )}
+        </Grid>
         </Grid>
       </Grid>
     </Box>

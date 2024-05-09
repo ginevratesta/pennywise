@@ -5,7 +5,7 @@
     border: 3px solid #ca8eb4;
   }
 
-  .css-70ffn3-MuiButtonBase-root-MuiButton-root {
+  .css-1e1h75k {
     background-color: #ca8eb4;
   }
 
@@ -18,6 +18,9 @@
     background-color: #fde5b7;
   }
 
+  .css-1yk1gt9-MuiInputBase-root-MuiOutlinedInput-root-MuiSelect-root.Mui-focused .MuiOutlinedInput-notchedOutline {
+    border-color: #ffad8e;
+  }
 }
 
 .pointer {

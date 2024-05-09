@@ -1,9 +1,9 @@
 import { useContext, useState, useEffect } from "react";
-import { useParams, useNavigate } from "react-router-dom";
+import { useParams } from "react-router-dom";
 import { PennyWiseContext } from "../../Context/PennyWiseContext";
 import getUser from "../api/getUser";
 import patchUser from "../api/patchUser";
-import deleteUser from "../api/deleteUser";
+import DeleteUserModal from "../modals/DeleteUserModal";
 import {
   Container,
   Box,
@@ -17,7 +17,6 @@ import "./Settings.css";
 
 const Settings = () => {
   const { userId } = useParams();
-  const navigate = useNavigate();
 
   const { updatesData, user } = useContext(PennyWiseContext);
   const [formData, setFormData] = useState({
@@ -44,16 +43,7 @@ const Settings = () => {
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [userId]);
 
-  const handleDeleteUser = async (e) => {
-    try {
-      await deleteUser(userId);
-      updatesData("setUser", {});
-
-      navigate("/");
-    } catch (error) {
-      console.error("Error deleting user:", error);
-    }
-  };
+  
 
   const handleChange = (e) => {
     setFormData({ ...formData, [e.target.id]: e.target.value });
@@ -68,8 +58,6 @@ const Settings = () => {
         filteredData[key] = formData[key];
       }
     }
-
-    console.log(filteredData);
 
     try {
       await patchUser(userId, filteredData);
@@ -133,7 +121,6 @@ const Settings = () => {
                 id="name"
                 label="Name"
                 autoComplete="first-name"
-                autoFocus
                 onChange={handleChange}
                 value={formData.name}
               />
@@ -235,9 +222,7 @@ const Settings = () => {
               </Grid> */}
         </Box>
       </Box>
-      <Button size="small" variant="contained" onClick={handleDeleteUser}>
-        Delete user account
-      </Button>
+      <DeleteUserModal userId={userId}/>
     </Container>
   );
 };

@@ -35,6 +35,7 @@ const PatchGoalModal = ({ goal }) => {
 
   const handleClose = () => {
     setOpen(false);
+    setFormData(goal);
     setSuccessAlert(false);
     setErrorAlert(false);
   };
@@ -59,25 +60,30 @@ const PatchGoalModal = ({ goal }) => {
     if (!allFieldsValid) {
       setErrorAlert(true);
       setTimeout(() => {
-        setFormData(goal);
         handleClose();
       }, 1500);
       return;
     }
     try {
-      await patchGoal(goal._id, formData);
-      const updatedGoalData = await getGoals(userId);
-      updatesData("setGoals", updatedGoalData);
+      if (formData.amount > 0) {
+        await patchGoal(goal._id, formData);
+        const updatedGoalData = await getGoals(userId);
+        updatesData("setGoals", updatedGoalData);
 
-      setSuccessAlert(true);
-      setTimeout(() => {
-        handleClose();
-      }, 1500);
+        setSuccessAlert(true);
+        setTimeout(() => {
+          handleClose();
+        }, 1500);
+      } else {
+        setErrorAlert(true);
+        setTimeout(() => {
+          handleClose();
+        }, 1500);
+      }
     } catch (error) {
       console.error("Error updating goal:", error);
       setErrorAlert(true);
       setTimeout(() => {
-        setFormData(goal);
         handleClose();
       }, 1500);
     }

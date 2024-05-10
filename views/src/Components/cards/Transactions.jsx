@@ -3,11 +3,12 @@ import {
   CardContent,
   Typography,
   CardActions,
-  Button,
 } from "@mui/material";
 import PatchTransModal from "../modals/PatchTransModal";
+import DeleteTransModal from "../modals/DeleteTransModal";
 
-const Transactions = ({ single, handleDeleteTrans }) => {
+
+const Transactions = ({ single }) => {
   return (
     <Card className="card" id={single._id} sx={{ width: "70%", mb: "24px" }}>
       <CardContent>
@@ -23,9 +24,7 @@ const Transactions = ({ single, handleDeleteTrans }) => {
       </CardContent>
       <CardActions sx={{ display: "flex", justifyContent: "space-around" }}>
         <PatchTransModal single={single} />
-        <Button size="small" variant="contained" onClick={handleDeleteTrans}>
-          Delete
-        </Button>
+        <DeleteTransModal transactionId={single._id} userId={single.userId}/>
       </CardActions>
     </Card>
   );

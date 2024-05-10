@@ -38,6 +38,7 @@ const PatchSavingsModal = ({ saving }) => {
 
   const handleClose = () => {
     setOpen(false);
+    setFormData(saving);
     setSuccessAlert(false);
     setErrorAlert(false);
   };
@@ -62,33 +63,38 @@ const PatchSavingsModal = ({ saving }) => {
     if (!allFieldsValid) {
       setErrorAlert(true);
       setTimeout(() => {
-        setFormData(saving)
         handleClose();
       }, 1500);
       return;
     }
 
     try {
-      await patchSavings(saving._id, formData);
+      if (formData.amount > 0) {
+        await patchSavings(saving._id, formData);
 
-      const updatedSavingsData = await getSavings(userId);
-      updatesData("setSavings", updatedSavingsData);
-      const userBalance = await getBalance(userId);
-      updatesData("setBalance", userBalance);
-      const userSavings = await getUserSavings(userId);
-      updatesData("setTotalSavings", userSavings);
-      const goalSavings = await getGoalSavings(userId);
-      updatesData("setGoalSavings", goalSavings);
+        const updatedSavingsData = await getSavings(userId);
+        updatesData("setSavings", updatedSavingsData);
+        const userBalance = await getBalance(userId);
+        updatesData("setBalance", userBalance);
+        const userSavings = await getUserSavings(userId);
+        updatesData("setTotalSavings", userSavings);
+        const goalSavings = await getGoalSavings(userId);
+        updatesData("setGoalSavings", goalSavings);
 
-      setSuccessAlert(true);
-      setTimeout(() => {
-        handleClose();
-      }, 1500);
+        setSuccessAlert(true);
+        setTimeout(() => {
+          handleClose();
+        }, 1500);
+      } else {
+        setErrorAlert(true);
+        setTimeout(() => {
+          handleClose();
+        }, 1500);
+      }
     } catch (error) {
       console.error("Error updating goal:", error);
       setErrorAlert(true);
       setTimeout(() => {
-        setFormData(saving);
         handleClose();
       }, 1500);
     }

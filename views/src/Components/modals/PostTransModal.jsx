@@ -12,7 +12,7 @@ import {
   MenuItem,
   InputLabel,
   Select,
-  Alert
+  Alert,
 } from "@mui/material";
 import { PennyWiseContext } from "../../Context/PennyWiseContext";
 import getTrans from "../api/getTrans";
@@ -48,7 +48,7 @@ const PostTransModal = () => {
       amount: "",
       date: "",
     });
-    setSuccessAlert(false)
+    setSuccessAlert(false);
     setErrorAlert(false);
   };
 
@@ -58,16 +58,23 @@ const PostTransModal = () => {
 
   const handleSubmit = async () => {
     try {
-      await postTrans(userId, formData);
-      const postedTransData = await getTrans(userId);
-      const userBalance = await getBalance(userId);
-      updatesData("setTrans", postedTransData);
-      updatesData("setBalance", userBalance);
+      if (formData.amount > 0) {
+        await postTrans(userId, formData);
+        const postedTransData = await getTrans(userId);
+        const userBalance = await getBalance(userId);
+        updatesData("setTrans", postedTransData);
+        updatesData("setBalance", userBalance);
 
-      setSuccessAlert(true);
+        setSuccessAlert(true);
         setTimeout(() => {
           handleClose();
         }, 1500);
+      } else {
+        setErrorAlert(true);
+        setTimeout(() => {
+          handleClose();
+        }, 1500);
+      }
     } catch (error) {
       console.error("Error posting transaction:", error);
       setErrorAlert(true);
@@ -89,12 +96,8 @@ const PostTransModal = () => {
       <Dialog open={open} onClose={handleClose}>
         <DialogTitle sx={{ color: "#FFAD8E" }}>Add new expense</DialogTitle>
         {successAlert && (
-                <Alert
-                  severity="success"
-                >
-                  New Transaction added successfully!
-                </Alert>
-              )}
+          <Alert severity="success">New Transaction added successfully!</Alert>
+        )}
 
         <Box sx={{ p: "16px" }}>
           <Grid container spacing={2}>
@@ -155,11 +158,7 @@ const PostTransModal = () => {
           </Grid>
         </Box>
 
-        {errorAlert && (
-                <Alert severity="error">
-                   Error adding transaction
-                </Alert>
-              )}
+        {errorAlert && <Alert severity="error">Error adding transaction</Alert>}
 
         <DialogActions>
           <Button onClick={handleClose}>Cancel</Button>

@@ -6,11 +6,6 @@ import getUser from "../api/getUser";
 import getTrans from "../api/getTrans";
 import getGoals from "../api/getGoals";
 import getSavings from "../api/getSavings";
-import getBalance from "../api/getBalance";
-import getUserSavings from "../api/getUserSavings";
-import deleteTrans from "../api/deleteTrans";
-import deleteGoal from "../api/deleteGoals";
-import deleteSavings from "../api/deleteSavings";
 import PostTransModal from "../modals/PostTransModal";
 import PostGoalModal from "../modals/PostGoalModal";
 import PostSavingsModal from "../modals/PostSavingsModal";
@@ -54,56 +49,6 @@ const Home = () => {
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [userId]);
-
-  const handleDeleteTrans = async (e) => {
-    const transactionId = e.target.closest(".card").id;
-    try {
-      await deleteTrans(transactionId);
-
-      const userBalance = await getBalance(userId);
-
-      updatesData(
-        "setTrans",
-        trans.filter((transaction) => transaction._id !== transactionId)
-      );
-      updatesData("setBalance", userBalance);
-    } catch (error) {
-      console.error("Error deleting transaction:", error);
-    }
-  };
-
-  const handleDeleteGoal = async (e) => {
-    const goalId = e.target.closest(".card").id;
-    try {
-      await deleteGoal(goalId);
-
-      updatesData(
-        "setGoals",
-        goals.filter((goal) => goal._id !== goalId)
-      );
-    } catch (error) {
-      console.error("Error deleting goal:", error);
-    }
-  };
-
-  const handleDeleteSavings = async (e) => {
-    const savingsId = e.target.closest(".card").id;
-    try {
-      await deleteSavings(savingsId);
-
-      const userSavings = await getUserSavings(userId);
-
-      updatesData(
-        "setSavings",
-        savings.filter((saving) => saving._id !== savingsId)
-      );
-      updatesData("setTotalSavings", userSavings);
-      const userBalance = await getBalance(userId);
-      updatesData("setBalance", userBalance);
-    } catch (error) {
-      console.error("Error deleting savings:", error);
-    }
-  };
 
   return (
     <Box sx={{ flexGrow: 1 }} component="main">
@@ -164,103 +109,86 @@ const Home = () => {
         </Grid>
 
         <Grid container spacing={2} mt="16px">
-
-        <Grid
-          item
-          xs={12}
-          md={4}
-          sx={{
-            display: "flex",
-            flexDirection: "column",
-            alignItems: "center",
-          }}
-        >
-          <Typography
-            variant="h4"
-            sx={{ color: "#9686AB", mb: "16px", mt: { xs: "16px", md: "0" } }}
+          <Grid
+            item
+            xs={12}
+            md={4}
+            sx={{
+              display: "flex",
+              flexDirection: "column",
+              alignItems: "center",
+            }}
           >
-            Transactions
-          </Typography>
-
-          {trans?.length === 0 ? (
-            <Typography sx={{ mt: "16px", color: "#FFAD8E" }}>
-              No transactions yet
+            <Typography
+              variant="h4"
+              sx={{ color: "#9686AB", mb: "16px", mt: { xs: "16px", md: "0" } }}
+            >
+              Transactions
             </Typography>
-          ) : (
-            trans
-              ?.slice()
-              .reverse()
-              .map((single) => (
-                <Transactions
-                  key={single._id}
-                  single={single}
-                  handleDeleteTrans={handleDeleteTrans}
-                />
-              ))
-          )}
-        </Grid>
 
-        <Grid
-          item
-          xs={12}
-          md={4}
-          sx={{
-            display: "flex",
-            flexDirection: "column",
-            alignItems: "center",
-          }}
-        >
-          <Typography variant="h4" sx={{ color: "#9686AB", mb: "16px" }}>
-            Goals
-          </Typography>
-          {goals?.length === 0 ? (
-            <Typography sx={{ mt: "16px", color: "#FFAD8E" }}>
-              No goals yet
-            </Typography>
-          ) : (
-            goals
-              ?.slice()
-              .reverse()
-              .map((goal) => (
-                <Goals
-                  key={goal._id}
-                  goal={goal}
-                  handleDeleteGoal={handleDeleteGoal}
-                />
-              ))
-          )}
-        </Grid>
+            {trans?.length === 0 ? (
+              <Typography sx={{ mt: "16px", color: "#FFAD8E" }}>
+                No transactions yet
+              </Typography>
+            ) : (
+              trans
+                ?.slice()
+                .reverse()
+                .map((single) => (
+                  <Transactions key={single._id} single={single} />
+                ))
+            )}
+          </Grid>
 
-        <Grid
-          item
-          xs={12}
-          md={4}
-          sx={{
-            display: "flex",
-            flexDirection: "column",
-            alignItems: "center",
-          }}
-        >
-          <Typography variant="h4" sx={{ color: "#9686AB", mb: "16px" }}>
-            Savings
-          </Typography>
-          {savings?.length === 0 ? (
-            <Typography sx={{ mt: "16px", color: "#FFAD8E" }}>
-              No savings yet
+          <Grid
+            item
+            xs={12}
+            md={4}
+            sx={{
+              display: "flex",
+              flexDirection: "column",
+              alignItems: "center",
+            }}
+          >
+            <Typography variant="h4" sx={{ color: "#9686AB", mb: "16px" }}>
+              Goals
             </Typography>
-          ) : (
-            savings
-              ?.slice()
-              .reverse()
-              .map((saving) => (
-                <Savings
-                  key={saving._id}
-                  saving={saving}
-                  handleDeleteSavings={handleDeleteSavings}
-                />
-              ))
-          )}
-        </Grid>
+            {goals?.length === 0 ? (
+              <Typography sx={{ mt: "16px", color: "#FFAD8E" }}>
+                No goals yet
+              </Typography>
+            ) : (
+              goals
+                ?.slice()
+                .reverse()
+                .map((goal) => <Goals key={goal._id} goal={goal} />)
+            )}
+          </Grid>
+
+          <Grid
+            item
+            xs={12}
+            md={4}
+            sx={{
+              display: "flex",
+              flexDirection: "column",
+              alignItems: "center",
+            }}
+          >
+            <Typography variant="h4" sx={{ color: "#9686AB", mb: "16px" }}>
+              Savings
+            </Typography>
+            {savings?.length === 0 ? (
+              <Typography sx={{ mt: "16px", color: "#FFAD8E" }}>
+                No savings yet
+              </Typography>
+            ) : (
+              savings
+                ?.slice()
+                .reverse()
+                .map((saving) => <Savings key={saving._id} saving={saving} />)
+            )}
+          </Grid>
         </Grid>
       </Grid>
     </Box>

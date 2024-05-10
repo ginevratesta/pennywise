@@ -12,13 +12,12 @@ import {
   MenuItem,
   InputLabel,
   Select,
-  Alert
+  Alert,
 } from "@mui/material";
 import { PennyWiseContext } from "../../Context/PennyWiseContext";
 import getGoals from "../api/getGoals";
 import postGoal from "../api/postGoal";
-import "./Modals.css"
-
+import "./Modals.css";
 
 const PostGoalModal = () => {
   const { userId } = useParams();
@@ -50,7 +49,7 @@ const PostGoalModal = () => {
       savings: "",
       date: "",
     });
-    setSuccessAlert(false)
+    setSuccessAlert(false);
     setErrorAlert(false);
   };
 
@@ -60,14 +59,21 @@ const PostGoalModal = () => {
 
   const handleSubmit = async () => {
     try {
-      await postGoal(userId, formData);
-      const postedGoalData = await getGoals(userId);
-      updatesData("setGoals", postedGoalData);
+      if (formData.amount > 0) {
+        await postGoal(userId, formData);
+        const postedGoalData = await getGoals(userId);
+        updatesData("setGoals", postedGoalData);
 
-      setSuccessAlert(true);
+        setSuccessAlert(true);
         setTimeout(() => {
           handleClose();
         }, 1500);
+      } else {
+        setErrorAlert(true);
+        setTimeout(() => {
+          handleClose();
+        }, 1500);
+      }
     } catch (error) {
       console.error("Error posting goal:", error);
       setErrorAlert(true);
@@ -89,12 +95,8 @@ const PostGoalModal = () => {
       <Dialog open={open} onClose={handleClose}>
         <DialogTitle sx={{ color: "#FFAD8E" }}>Add new Goal</DialogTitle>
         {successAlert && (
-                <Alert
-                  severity="success"
-                >
-                  New Goal added successfully!
-                </Alert>
-              )}
+          <Alert severity="success">New Goal added successfully!</Alert>
+        )}
 
         <Box sx={{ p: "16px" }}>
           <Grid container spacing={2}>
@@ -164,11 +166,7 @@ const PostGoalModal = () => {
           </Grid>
         </Box>
 
-        {errorAlert && (
-                <Alert severity="error">
-                   Error adding goal
-                </Alert>
-              )}
+        {errorAlert && <Alert severity="error">Error adding goal</Alert>}
 
         <DialogActions>
           <Button onClick={handleClose}>Cancel</Button>

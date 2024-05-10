@@ -36,6 +36,7 @@ const PatchTransModal = ({ single }) => {
 
   const handleClose = () => {
     setOpen(false);
+    setFormData(single);
     setSuccessAlert(false);
     setErrorAlert(false);
   };
@@ -60,29 +61,34 @@ const PatchTransModal = ({ single }) => {
     if (!allFieldsValid) {
       setErrorAlert(true);
       setTimeout(() => {
-        setFormData(single);
         handleClose();
       }, 1500);
       return;
     }
     try {
-      await patchTrans(single._id, formData);
+      if (formData.amount > 0) {
+        await patchTrans(single._id, formData);
 
-      const updatedTransData = await getTrans(userId);
-      const userBalance = await getBalance(userId);
+        const updatedTransData = await getTrans(userId);
+        const userBalance = await getBalance(userId);
 
-      updatesData("setTrans", updatedTransData);
-      updatesData("setBalance", userBalance);
+        updatesData("setTrans", updatedTransData);
+        updatesData("setBalance", userBalance);
 
-      setSuccessAlert(true);
-      setTimeout(() => {
-        handleClose();
-      }, 1500);
+        setSuccessAlert(true);
+        setTimeout(() => {
+          handleClose();
+        }, 1500);
+      } else {
+        setErrorAlert(true);
+        setTimeout(() => {
+          handleClose();
+        }, 1500);
+      }
     } catch (error) {
       console.error("Error updating transaction:", error);
       setErrorAlert(true);
       setTimeout(() => {
-        setFormData(single);
         handleClose();
       }, 1500);
     }

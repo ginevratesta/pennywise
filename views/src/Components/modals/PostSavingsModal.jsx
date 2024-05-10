@@ -12,7 +12,7 @@ import {
   MenuItem,
   InputLabel,
   Select,
-  Alert
+  Alert,
 } from "@mui/material";
 import { PennyWiseContext } from "../../Context/PennyWiseContext";
 import getSavings from "../api/getSavings";
@@ -46,7 +46,7 @@ const PostSavingsModal = () => {
       amount: "",
       goal: "",
     });
-    setSuccessAlert(false)
+    setSuccessAlert(false);
     setErrorAlert(false);
   };
 
@@ -57,20 +57,27 @@ const PostSavingsModal = () => {
 
   const handleSubmit = async () => {
     try {
-      await postSavings(userId, formData);
-      const postedSavingsData = await getSavings(userId);
-      const userBalance = await getBalance(userId);
-      updatesData("setBalance", userBalance);
-      updatesData("setSavings", postedSavingsData);
-      const userSavings = await getUserSavings(userId);
-      updatesData("setTotalSavings", userSavings);
-      const goalSavings = await getGoalSavings(userId);
-      updatesData("setGoalSavings", goalSavings);
+      if (formData.amount > 0) {
+        await postSavings(userId, formData);
+        const postedSavingsData = await getSavings(userId);
+        const userBalance = await getBalance(userId);
+        updatesData("setBalance", userBalance);
+        updatesData("setSavings", postedSavingsData);
+        const userSavings = await getUserSavings(userId);
+        updatesData("setTotalSavings", userSavings);
+        const goalSavings = await getGoalSavings(userId);
+        updatesData("setGoalSavings", goalSavings);
 
-      setSuccessAlert(true);
+        setSuccessAlert(true);
         setTimeout(() => {
           handleClose();
         }, 1500);
+      } else {
+        setErrorAlert(true);
+        setTimeout(() => {
+          handleClose();
+        }, 1500);
+      }
     } catch (error) {
       console.error("Error posting savings:", error);
       setErrorAlert(true);
@@ -92,12 +99,8 @@ const PostSavingsModal = () => {
       <Dialog open={open} onClose={handleClose}>
         <DialogTitle sx={{ color: "#FFAD8E" }}>Add new savings</DialogTitle>
         {successAlert && (
-                <Alert
-                  severity="success"
-                >
-                  New Savings added successfully!
-                </Alert>
-              )}
+          <Alert severity="success">New Savings added successfully!</Alert>
+        )}
 
         <Box sx={{ p: "16px" }}>
           <Grid container spacing={2}>
@@ -131,11 +134,7 @@ const PostSavingsModal = () => {
           </Grid>
         </Box>
 
-        {errorAlert && (
-                <Alert severity="error">
-                   Error adding savings
-                </Alert>
-              )}
+        {errorAlert && <Alert severity="error">Error adding savings</Alert>}
 
         <DialogActions>
           <Button onClick={handleClose}>Cancel</Button>
